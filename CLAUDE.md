@@ -23,7 +23,7 @@ real clinical outcome.
 
 ---
 
-## STATUS: Phase 0 -- Gate-1 kill test. Skeleton committed (6fccf97). All 3 panel name-lists IN HAND (authoritative): CosMx IO protein (Bruker), CosMx WTx genes (Bruker), METABRIC-IMC 37-marker (Zenodo 6036188, Danenberg 2022). Step 0 (panel overlap) running -- partition to be marked PENDING REVIEW. CosMx slide still absent (not needed for Step 0; needed for Gates A-D).
+## STATUS: Phase 0 -- Gate-1 kill test. Skeleton committed (6fccf97). All 3 panel name-lists IN HAND (authoritative): CosMx IO protein (Bruker), CosMx WTx genes (Bruker), METABRIC-IMC 37-marker (Zenodo 6036188, Danenberg 2022). Step 0 (panel overlap) DONE -- 22 shared protein channels, partition = 21 panel-adjacent / 18,912 panel-distal genes, **PENDING REVIEW** (results/phase0_step0_*). STOP for sign-off before Gate A. CosMx slide still absent (not needed for Step 0; required for Gates A-D).
 
 Do **not** build the imputer until the information is proven present. Phase 0 is a sequence of cheap
 kill gates run almost entirely within a **single** CosMx slide. The Phase-0 deliverable is a verdict:

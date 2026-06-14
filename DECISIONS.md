@@ -12,6 +12,19 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-15 - RESULT - Step 0 panel overlap produced; partition PENDING REVIEW
+**Numbers:** CosMx IO 62 proteins (65 distinct genes) ∩ METABRIC 39 channels (36 gene-mappable,
+3 dropped: Histone H3, DNA1, DNA2) = **22 shared channels -> 22 genes**. WTx = 18,933 genes.
+Partition: **panel-adjacent = 21**, **panel-distal = 18,912**. (One shared gene, FCGR3A/CD16, is
+absent from the WTx panel so cannot anchor adjacency -> 22 shared genes, 21 adjacent.)
+**Consequence:** Gate-D substrate exists: 21 adjacent vs 18,912 distal genes. Panel-adjacent set =
+{ACTA2, CD163, CD38, CD3D/E/G, CD4, CD68, CD8A, ERBB2, FOXP3, FUT4, HLA-DRA, ICOS, ITGAX, MKI67,
+MS4A1, PDCD1, PECAM1, PTPRC, TNFRSF18}. Outputs in results/ (gitignored): protein_gene_map.tsv,
+shared_proteins.tsv, panel_partition.tsv, SUMMARY.md. METABRIC epitope->gene used an explicit,
+reviewable override table (CosMx side is vendor 'Gene' column). **PENDING REVIEW** -- partition not
+final; ambiguous/combined channels flagged (HLA-DR/HLA-ABC multi-gene, CK8-18, CD31-vWF,
+c-Caspase3c-PARP, panCK). STOP for sign-off before Gate A. Gate A also needs the CosMx slide (absent).
+
 ### 2026-06-15 - RESULT - METABRIC 37-marker panel ACQUIRED from Zenodo; Step 0 UNBLOCKED
 **Numbers:** Zenodo 6036188 (Danenberg 2022, CC-BY-4.0), members `markerStackOrder.csv` +
 `AbPanel.csv` extracted via HTTP range (remotezip 0.12.3, MIT) from a 6.65 GB zip without full
