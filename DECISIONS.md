@@ -12,6 +12,24 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-15 - RESULT - METABRIC 37-marker list BLOCKED; "local METABRIC-IMC" assumption falsified
+**Numbers:** 3 local `.rds` files = sparse dgCMatrix, 25,288 / 22,889 RNA genes x cells named
+`BIOKEY_##_Pre_…`; tarball = 10x matrix, 33,694 RNA genes x 44,024 `sc5r…` cells.
+**Consequence:** LOAD-BEARING ASSUMPTION FALSIFIED. The files in ~/Downloads presumed to be
+Danenberg-2022 METABRIC-IMC are actually **Bassez-2021 BIOKEY anti-PD1 breast scRNA-seq** + a 10x
+scRNA-seq matrix -- they contain RNA genes, **no IMC protein panel**. (pyreadr 0.5.0, AGPLv3, can't
+read dgCMatrix S4; established via local R 4.3.1 readRDS dimnames.) No authoritative METABRIC
+37-marker source is in hand; HARD RULE forbids reconstructing it from memory. **Step 0 cannot run**
+(needs all 3 name-lists). Need the real Danenberg/Ali-2020 IMC marker list from an official source.
+
+### 2026-06-15 - RESULT - CosMx IO protein + WTx gene lists acquired (authoritative, Bruker)
+**Numbers:** IO protein = 62 biological targets (+2 isotype controls = 64-plex); WTx = 18,934 gene
+targets (+50 negative controls). Raw xlsx sha256 recorded in data/panels/PROVENANCE.md.
+**Consequence:** 2 of 3 Phase-0 name-lists now in hand from the official Bruker Spatial Biology
+resource pages (verbatim extracts in data/panels/*.tsv; raw xlsx gitignored, re-fetchable). Footer
+/control rows retained raw, to be dropped at Step-0 cleaning. Does not unblock Step 0 (METABRIC
+still missing).
+
 ### 2026-06-15 - DECISION - Repo skeleton committed; all three Phase-0 inputs inventoried MISSING
 **Numbers:** skeleton commit `6fccf97` (config.py, .gitignore, README, requirements.txt,
 scripts/phase_0_00..06 docstring-only stubs).

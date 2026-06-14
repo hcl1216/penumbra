@@ -2,12 +2,19 @@
 # Only small/derived artifacts and code belong in the repo.
 
 # --- Data (raw + derived) ---
-# Ignore everything under data/ EXCEPT the tracked panel-list location.
-# (Must ignore data/* not data/ so the negation below can re-include a subdir.)
+# Ignore everything under data/ EXCEPT the small tracked panel lists.
+# (Must ignore data/* not data/ so the negations below can re-include a subdir.)
 /data/*
 !/data/panels/
 /data/panels/*
 !/data/panels/.gitkeep
+# Track the small, authoritative panel name-lists + provenance (text only).
+!/data/panels/*.tsv
+!/data/panels/*.txt
+!/data/panels/*.md
+# ...but never the large raw spreadsheets (re-fetchable; URLs+sha256 in PROVENANCE.md).
+/data/panels/*.xlsx
+/data/panels/*.xls
 _drive/
 *.rds
 *.h5
@@ -62,6 +69,4 @@ desktop.ini
 .idea/
 
 # --- Keep these (negate ignores) ---
-!data/panels/
-!data/panels/**
 !.gitkeep

@@ -23,7 +23,7 @@ real clinical outcome.
 
 ---
 
-## STATUS: Phase 0 -- Gate-1 kill test. Skeleton committed (6fccf97). All 3 Phase-0 inputs MISSING (CosMx slide + both panel lists); Step 0 blocked pending slide + panel lists.
+## STATUS: Phase 0 -- Gate-1 kill test. Skeleton committed (6fccf97). CosMx IO protein + WTx gene lists IN HAND (authoritative, Bruker). BLOCKED: METABRIC 37-marker list unavailable -- local "METABRIC-IMC" files are actually Bassez-2021 BIOKEY scRNA-seq (RNA, no IMC panel). Step 0 cannot run until an authoritative IMC marker list + the CosMx slide are obtained.
 
 Do **not** build the imputer until the information is proven present. Phase 0 is a sequence of cheap
 kill gates run almost entirely within a **single** CosMx slide. The Phase-0 deliverable is a verdict:
