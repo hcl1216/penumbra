@@ -23,7 +23,7 @@ real clinical outcome.
 
 ---
 
-## STATUS: Phase 0 -- Gate-1 kill test. Nothing built yet.
+## STATUS: Phase 0 -- Gate-1 kill test. Skeleton committed (6fccf97). All 3 Phase-0 inputs MISSING (CosMx slide + both panel lists); Step 0 blocked pending slide + panel lists.
 
 Do **not** build the imputer until the information is proven present. Phase 0 is a sequence of cheap
 kill gates run almost entirely within a **single** CosMx slide. The Phase-0 deliverable is a verdict:
@@ -35,6 +35,28 @@ KILL (write the negative) or PROCEED.
    and run Step 0 (panel overlap) -- everything downstream depends on the panel-adjacent / panel-
    distal partition it produces.
 Do not start coding the gates against absent data; if either input is missing, say so and stop.
+
+---
+
+## Logging discipline -- the decision log is not optional
+
+Every session **must** append an entry to `DECISIONS.md` (reverse-chronological, newest on top)
+whenever ANY of these happen -- no exceptions:
+- a gate produces a verdict (pass/fail) or **any** quantitative result;
+- a kill criterion fires;
+- we pivot, change scope, or abandon an approach;
+- a load-bearing assumption is confirmed or falsified;
+- a design decision is made that future sessions must not relitigate.
+
+Rules:
+- **Design goes in before running; the result goes in after.** Two entries if needed.
+- Every logged RESULT/VERDICT must **also update the STATUS line** at the top of this file.
+- Results live in `DECISIONS.md` and `results/`, **never only** in commit messages or chat.
+- Keep entries short: date, type (RESULT / VERDICT / PIVOT / DECISION), one-line summary, the
+  numbers if any, and the consequence (what it changes / what we do next).
+
+This complements apparatus rule 8 ("record design before running, results after"); `DECISIONS.md`
+is the durable, human-readable trail and `results/` holds the artifacts.
 
 ---
 
