@@ -39,21 +39,33 @@ Retrieved 2026-06-15.
   "18,934 targets") + 50 negative-control probes (`Negative1..50`, no symbol) + 1 footer row.
   Negative controls and footer must be dropped at Step 0 cleaning.
 
-## 3. METABRIC / Ali-2020 37-marker IMC panel  ❌ NOT IN HAND — BLOCKED
+## 3. METABRIC-IMC (Danenberg 2022) marker panel  ✅ IN HAND (authoritative)
 
-- **Assumption falsified.** The local files in `~/Downloads` previously presumed to be
-  Danenberg-2022 METABRIC-IMC are **not** METABRIC-IMC and contain **no IMC protein panel**:
-  - `1863-counts_cells_cohort1.rds`, `1864-counts_tcell_cohort1.rds`,
-    `1867-counts_cells_cohort2.rds`: sparse `dgCMatrix` of **scRNA-seq counts**, rows =
-    25,288/22,889 **RNA gene symbols**, columns = cells named `BIOKEY_##_Pre_…` →
-    **Bassez et al. 2021 BIOKEY** anti-PD1 breast scRNA-seq cohort (Nat Med), not Danenberg.
-  - `2102-Breastcancer_counts.tar.gz`: 10x `matrix.mtx`/`genes.tsv`/`barcodes.tsv`, 33,694
-    **RNA genes** × 44,024 cells (`sc5r…` barcodes) — scRNA-seq, not IMC.
-- **Tooling note:** `pyreadr` 0.5.0 (**AGPLv3** — acceptable for personal, non-distributed use;
-  recorded) cannot read these (`dgCMatrix` is S4). Read instead via local R 4.3.1
-  (`C:\Program Files\R\R-4.3.1`) `readRDS()` → dimnames, which is how the misidentification
-  above was established.
-- **Consequence:** no authoritative METABRIC 37-marker source is available locally, and the
-  HARD RULE forbids reconstructing it from memory. **Step 0 cannot run** (needs all 3 name-lists).
-  Need either the real Danenberg-2022 IMC artifact (e.g. the `SingleCells.csv` / IMC `.rds` with
-  37 marker channels, Zenodo) or the Ali-2020 marker table from an official source.
+- **Source:** Zenodo record **6036188** ("Breast tumour microenvironment structures are associated
+  with genomic features and clinical outcome", Danenberg et al. 2022, Nat Genet), license
+  **CC-BY-4.0**. https://zenodo.org/records/6036188
+  - Container: `MBTMEStrIMCPublic.zip` (6.65 GB; Zenodo MD5 `992d04caf3cefcca7bfc5bb64813297f`).
+  - **Not fully downloaded.** Extracted only the two small panel members via HTTP **range
+    requests** (`remotezip` 0.12.3, MIT) — Zenodo serves `accept-ranges: bytes` (HEAD 403, GET OK).
+- **Raw files (verbatim, tracked):**
+  - `metabric_markerStackOrder_RAW.csv` — member `MBTMEIMCPublic/markerStackOrder.csv`;
+    cols `Isotope,Epitope`. sha256 `af8ed2f3936e36af0749a09b1a3fb56c8e30dd9e6a57e4e13f26e4ec79b25f7a`.
+  - `metabric_AbPanel_RAW.csv` — member `MBTMEIMCPublic/AbPanel.csv`; full wet-lab antibody sheet
+    (target, clone, metal tag). sha256 `ea86c1da04667bad706e368ef8583d5b9386b17d4048f6b398d5c08aacaee02a`.
+- **Extracted list (verbatim, raw):** `metabric_markers.txt` — the `Epitope` column of
+  `markerStackOrder.csv`, the canonical image-layer panel the published single-cell data columns
+  correspond to. **39 channels = 37 protein markers + DNA1/DNA2** (Ir191/Ir193 intercalator).
+  This is the authoritative "37-marker" panel; normalization to gene symbols happens at Step 0.
+- **Discrepancies to handle at Step 0 (recorded, not silently cleaned):**
+  - Channel `Ho165`: `markerStackOrder.csv` Epitope = **`ER`** (estrogen receptor, the analysis
+    label); `AbPanel.csv` target = `Rabbit IgG (H+L)` (the wet-lab reagent row). Use the
+    `markerStackOrder` Epitope (`ER` → `ESR1`); the AbPanel label is not a biological target.
+  - Channel `Yb176`: Epitope verbatim = **`c-Caspase3c-PARP`** (a run-together of cleaved
+    Caspase-3 / cleaved PARP; AbPanel target = `Cleaved Caspase3`). Apoptosis marker; no single
+    clean gene — likely panel-distal-irrelevant, decide at Step 0.
+  - `DNA1`/`DNA2` are nuclear intercalators, not antibody targets → not gene-mappable (drop).
+  - Two HER2 channels (`Eu151` `HER2 (3B5)`, `Tb159` `HER2 (D8F12)`) both → `ERBB2`.
+- **Note:** the files originally in `~/Downloads` presumed to be METABRIC-IMC were a
+  misidentification — they are **Bassez-2021 BIOKEY scRNA-seq** (RNA gene × cell `dgCMatrix`) and
+  a 10x scRNA-seq matrix, containing no IMC panel. See DECISIONS.md (2026-06-15). They are NOT the
+  source used here; the authoritative panel above came from the Zenodo deposit.

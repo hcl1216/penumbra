@@ -12,6 +12,17 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-15 - RESULT - METABRIC 37-marker panel ACQUIRED from Zenodo; Step 0 UNBLOCKED
+**Numbers:** Zenodo 6036188 (Danenberg 2022, CC-BY-4.0), members `markerStackOrder.csv` +
+`AbPanel.csv` extracted via HTTP range (remotezip 0.12.3, MIT) from a 6.65 GB zip without full
+download. 39 channels = 37 protein markers + DNA1/DNA2. sha256 recorded in PROVENANCE.md.
+**Consequence:** All 3 Phase-0 name-lists now in hand from authoritative sources (CosMx IO,
+CosMx WTx, METABRIC-IMC). Supersedes the earlier BLOCKED entry below: the block was on the *local*
+files (which were misidentified BIOKEY scRNA-seq); the panel itself was obtained from the official
+deposit. Recorded discrepancies for Step-0 handling: Ho165 Epitope=`ER` (use; AbPanel's
+`Rabbit IgG (H+L)` is the reagent row), Yb176=`c-Caspase3c-PARP` (run-together), DNA1/DNA2 not
+gene-mappable, two HER2 channels -> ERBB2. **Step 0 may now run** (CosMx slide not required for it).
+
 ### 2026-06-15 - RESULT - METABRIC 37-marker list BLOCKED; "local METABRIC-IMC" assumption falsified
 **Numbers:** 3 local `.rds` files = sparse dgCMatrix, 25,288 / 22,889 RNA genes x cells named
 `BIOKEY_##_Pre_…`; tarball = 10x matrix, 33,694 RNA genes x 44,024 `sc5r…` cells.

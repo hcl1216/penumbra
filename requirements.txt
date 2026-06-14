@@ -17,9 +17,17 @@
 #                                    trigger if we modify tqdm's own source. Drop-in
 #                                    removable if a license-clean build is ever required.
 #
-# Deferred to later phases (do not add until needed):
-#   pyreadr (Gate E: read METABRIC-IMC .rds) -- pyreadr is MIT but vendors librdata;
-#           license-check at point of use.
+# --- Data-acquisition tooling (used by Step-0 panel acquisition; not modeling deps) ---
+#   openpyxl       MIT               OK   (parse vendor .xlsx panel sheets)
+#   remotezip      MIT               OK   (HTTP-range extract single members from large
+#                                         remote zips, e.g. Zenodo 6036188, without full download)
+#   pyreadr        AGPLv3            FLAG: strong copyleft. Used only to *inspect* local .rds
+#                                         (read-only, nothing distributed) -- acceptable for this
+#                                         personal project; do NOT ship/redistribute code linked
+#                                         against it. Cannot read S4 dgCMatrix anyway; local R
+#                                         (readRDS) was used instead for those.
+openpyxl>=3.1
+remotezip>=0.12
 
 numpy>=1.24
 scipy>=1.10

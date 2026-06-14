@@ -1,0 +1,45 @@
+# METABRIC-IMC (Danenberg 2022) marker panel -- VERBATIM epitope names (raw, not cleaned)
+# Source: Zenodo record 6036188 (CC-BY-4.0), zip MBTMEStrIMCPublic.zip,
+#   member MBTMEIMCPublic/markerStackOrder.csv, column 'Epitope' (axis: image-layer order).
+# Extracted via HTTP range requests (remotezip), not full 6.65GB download.
+# 39 channels = 37 protein markers + DNA1/DNA2 (Ir191/Ir193, nuclear intercalator).
+# DO NOT rename/clean here; normalization to gene symbols happens at Step 0.
+Histone H3
+SMA
+CK5
+CD38
+HLA-DR
+CK8-18
+CD15
+FSP1
+CD163
+ICOS
+OX40
+CD68
+HER2 (3B5)
+CD3
+Podoplanin
+CD11c
+PD-1
+GITR
+CD16
+HER2 (D8F12)
+CD45RA
+B2M
+CD45RO
+FOXP3
+CD20
+ER
+CD8
+CD57
+Ki-67
+PDGFRB
+Caveolin-1
+CD4
+CD31-vWF
+CXCL12
+HLA-ABC
+panCK
+c-Caspase3c-PARP
+DNA1
+DNA2

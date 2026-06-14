@@ -12,6 +12,9 @@
 !/data/panels/*.tsv
 !/data/panels/*.txt
 !/data/panels/*.md
+# Track the two small METABRIC-IMC panel CSVs (verbatim from Zenodo 6036188).
+!/data/panels/metabric_AbPanel_RAW.csv
+!/data/panels/metabric_markerStackOrder_RAW.csv
 # ...but never the large raw spreadsheets (re-fetchable; URLs+sha256 in PROVENANCE.md).
 /data/panels/*.xlsx
 /data/panels/*.xls
