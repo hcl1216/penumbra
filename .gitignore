@@ -1,0 +1,67 @@
+# Penumbra -- raw data, checkpoints, and results live on Drive, NOT in git.
+# Only small/derived artifacts and code belong in the repo.
+
+# --- Data (raw + derived) ---
+# Ignore everything under data/ EXCEPT the tracked panel-list location.
+# (Must ignore data/* not data/ so the negation below can re-include a subdir.)
+/data/*
+!/data/panels/
+/data/panels/*
+!/data/panels/.gitkeep
+_drive/
+*.rds
+*.h5
+*.h5ad
+*.loom
+*.mtx
+*.mtx.gz
+*.csv.gz
+*.tar.gz
+*.zip
+# CosMx flat-file outputs
+*_exprMat_file.csv
+*_metadata_file.csv
+*_tx_file.csv
+*_fov_positions_file.csv
+*-polygons.csv
+
+# --- Results / figures / verdicts (mirrored to Drive) ---
+results/
+
+# --- Model checkpoints / large artifacts ---
+*.ckpt
+*.pt
+*.pth
+*.pkl
+*.joblib
+*.npy
+*.npz
+*.parquet
+*.feather
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+.env
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# --- Keep these (negate ignores) ---
+!data/panels/
+!data/panels/**
+!.gitkeep
