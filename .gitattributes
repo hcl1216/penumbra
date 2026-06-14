@@ -1,0 +1,4 @@
+# Preserve verbatim bytes of raw, authoritative source extracts (no CRLF/LF rewriting),
+# so working-copy contents stay byte-identical to the sha256 recorded in PROVENANCE.md.
+data/panels/*_RAW.csv -text
+data/panels/metabric_markers.txt -text
