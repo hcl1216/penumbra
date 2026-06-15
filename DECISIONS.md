@@ -12,7 +12,30 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
-### 2026-06-15 - DECISION - Fork-2 discovery-cohort scoping reported (recommendation PENDING APPROVAL; NOT finalized)
+### 2026-06-15 - RESULT - Eligibility gates applied to Fork-2 cohort candidates; Risom disqualified, 4 survivors
+**Gates (both disqualifying, run BEFORE ranking):** G1 endpoint must match METABRIC OS/DFS axis;
+G2 population independent of METABRIC (no shared patients/accrual pipeline).
+**Outcomes (source-verified):**
+- Jackson/Basel IMC — G1 PASS (overall survival; disease-specific OS Cox), G2 PASS (Swiss Basel+Zurich,
+  independent) → **ELIGIBLE**.
+- Keren MIBI — G1 PASS (OS + recurrence), G2 PASS (Stanford USA) → **ELIGIBLE** (TNBC-only caveat).
+- Meyer 2025 Bodenmiller TNBC IMC (re-sweep find) — G1 PASS (recurrence), G2 likely PASS (Zurich ZTMA;
+  WALL: origin behind paywalled Methods) → **PROVISIONAL** (origin + panel walls).
+- Engelhardt/Chang CycIF VUMC/OHSU (re-sweep find) — G1 PASS (OS+RFS), G2 PASS (Vanderbilt) →
+  **ELIGIBLE** (platform = CycIF, not IMC/MIBI/CODEX; panel wall).
+- **Risom 2022 DCIS — G1 FAIL** (only DCIS→invasive progression / ipsilateral breast event; no OS/DFS)
+  → **DISQUALIFIED** (G2 would have passed; the deferred gate decides it).
+- Ali 2020 — G2 FAIL (IS the METABRIC cohort). Wang 2023 — G2 FAIL (method on Basel/METABRIC).
+**Consequence:** report restructured eligibility-first in docs/fork2_cohort_scoping.md. Survivors
+ranked by platform comparability + overlap; recommendation = **Jackson/Basel IMC** (only survivor clean
+on both gates with no walls; same platform as METABRIC; largest invasive OS cohort; has ER+HER2 so
+ESR1 watch-gene present) — Meyer-2025 a same-platform TNBC contender pending its two walls; Keren the
+immune-rich cross-platform alternative. **Pick still PENDING APPROVAL — not finalized.**
+**SECONDARY (load-bearing):** METABRIC-IMC validation data is NOT in hand — only panel CSVs are local;
+SingleCells + clinical/survival live only in Zenodo 6036188 zip (6.65 GB), not pulled. Validation
+cannot run until obtained.
+
+### 2026-06-15 - DECISION - Fork-2 discovery-cohort scoping reported (recommendation PENDING APPROVAL; NOT finalized) (superseded by eligibility-gated RESULT above)
 **Numbers:** candidates w/ METABRIC-37 marker overlap (source-verified): Jackson/Basel IMC 15
 (epithelial-biased, incl. ER+HER2; same platform as METABRIC; open CC-BY 1.0; n=281+72; OS/DFS),
 Keren MIBI-TNBC 16 (immune-rich, no ER/HER2; images gated, license unverified; n=41; OS+recurrence),

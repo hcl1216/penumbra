@@ -31,7 +31,7 @@ the discovery cohort and METABRIC** (the approved 22-protein partition is the st
 
 ---
 
-## STATUS: Fork 2 — Phase 0 (cohort scoping). Pivoted off Fork 3 (2026-06-15; data-layer blocked, archived in docs/). Carried over: apparatus, the APPROVED Step-0 22-protein shared partition (final; commit a1dec02; repurposed as the protein space shared with METABRIC). Fork-2 Phase-0 gate sequence = TODO (next design pass). Current open item: discovery-cohort scoping DONE (docs/fork2_cohort_scoping.md) — recommend **Jackson/Basel IMC** (same-platform, open, ER+HER2; immune-thin caveat), alternatives Keren/Risom; **PENDING APPROVAL, not finalized**. The WTX RNA-only CosMx breast slide is NOT a Fork-2 input.
+## STATUS: Fork 2 — Phase 0 (cohort scoping). Pivoted off Fork 3 (2026-06-15; data-layer blocked, archived in docs/). Carried over: apparatus, the APPROVED Step-0 22-protein shared partition (final; commit a1dec02; repurposed as the protein space shared with METABRIC). Fork-2 Phase-0 gate sequence = TODO (next design pass). Current open item: discovery-cohort scoping DONE, eligibility-gated (docs/fork2_cohort_scoping.md). Two disqualifying gates (endpoint match to METABRIC OS/DFS; population independence) applied BEFORE ranking: survivors = Jackson/Basel IMC, Keren MIBI, Meyer-2025 TNBC IMC (provisional/walls), Engelhardt-CycIF; **Risom DISQUALIFIED** (progression endpoint, not survival); Ali-2020 disqualified (= METABRIC patients). Recommend **Jackson/Basel IMC** (only survivor clean on both gates, same platform, has ER+HER2) — **PENDING APPROVAL, not finalized**. NOTE: METABRIC-IMC validation data (cells+clinical) NOT in hand yet — only panel CSVs; must pull Zenodo 6036188 before validation. WTX RNA-only CosMx slide is NOT a Fork-2 input.
 
 ---
 

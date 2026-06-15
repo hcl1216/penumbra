@@ -1,92 +1,118 @@
-# Fork-2 discovery-cohort scoping — PENDING APPROVAL
+# Fork-2 discovery-cohort scoping — ELIGIBILITY-FIRST — PENDING APPROVAL
 
 Status: **report only — no cohort finalized, nothing built.** Recommendation at the bottom is
-PENDING the user's go. Compiled 2026-06-15 by parallel source-backed investigation.
+PENDING the user's go. Revised 2026-06-15 to apply two **disqualifying eligibility gates BEFORE any
+ranking** (the first pass wrongly ranked on panel overlap and deferred these). A candidate must
+**PASS BOTH GATES** to be eligible; panel overlap + platform only break ties among survivors.
 
 **Goal context.** Fork 2 = discover a TME biomarker in ONE public spatial-proteomic breast cohort
-with linked outcome, then validate in METABRIC-IMC (Danenberg 2022, 37-marker IMC). Cross-cohort
-validation runs over the markers **shared between the discovery cohort and METABRIC**, so marker
-overlap + platform comparability (batch canary, apparatus rule 5) matter as much as accessibility.
-
-**HARD RULE applied.** Every panel fact below was taken from a real file / official source (cited);
-items that could not be verified from a source are flagged "unverified / behind wall." METABRIC-IMC
-37-marker panel used for overlap: see `data/panels/metabric_markers.txt`.
+with linked outcome, then validate in METABRIC-IMC (Danenberg 2022). METABRIC's validation endpoints
+are **overall survival (OS) / disease-free survival (DFS)**; its patients are UK (multiple sites) +
+Canada (Vancouver) via the METABRIC consortium (Curtis 2012); the IMC subset is Ali 2020 / Danenberg
+2022. HARD RULE applied: every outcome/accrual/panel fact below is from a real file or official
+source (cited); unverifiable items are flagged as walls.
 
 ---
 
-## Comparison
+## The two gates (must pass BOTH)
 
-| Cohort | Platform | Access | License | n (outcome) | Outcome | Tissue | Overlap w/ METABRIC-37 | Overlap character |
-|---|---|---|---|---|---|---|---|---|
-| **Jackson/Basel 2020** | **IMC (Hyperion)** — same as METABRIC | **Direct, open** (Zenodo 3518284; 36.8 GB) | **CC-BY 1.0** | 281 Basel (+72 Zurich) | **OS, DFS**, grade, TNM, ER/PR/HER2 | Invasive, all subtypes | **15** | epithelial-biased; incl. **ER + HER2**, keratins, CD31/vWF, Ki-67; immune-thin (CD3/CD20/CD68 only) |
-| **Keren 2018** | MIBI-TOF (cross-platform vs METABRIC) | Images **gated** (free reg, mibi-share); single-cell `cellData.csv` **open mirror** | **Unverified** | 41 TNBC (38 in reanalyses) | **OS + recurrence** | TNBC only | **16** (+1 soft H3) | **immune-rich** (CD3/4/8/16/45RO/68/163, FOXP3, HLA-DR/ABC) + SMA/CD31/panCK/Ki-67; **no ER, no HER2** |
-| **Risom 2022** | MIBI-TOF (cross-platform) | **Direct, open** (Mendeley d87vg86zd8.2) | **CC-BY 4.0** | 79 tissues (14 progressor / 44 non-prog DCIS) | **DCIS→invasive progression/recurrence** | DCIS (pre-invasive) | **16 confirmed** (panel partly behind wall) | mixed: immune (CD3/4/8/11c/68, PD-1, HLA-DR) + **ER + HER2** + CK5/panCK/SMA/CD31/Ki-67/H3 |
-| OHSU CycIF 2025 | **CycIF (fluorescence)** — NOT IMC/MIBI/CODEX | Synapse syn50134757 (light reg wall) | CC-BY 4.0 (article) | 102 (OS/RFS) | OS, RFS | Invasive, all subtypes | **not computed** (42-marker panel behind supplement; HARD-RULE: not guessed) | likely substantial but unverified |
+- **GATE 1 — ENDPOINT MATCH (disqualifying).** The discovery cohort's outcome must be on the SAME
+  axis as METABRIC's (OS/DFS survival). A different-axis endpoint (e.g. DCIS→invasive *progression*)
+  cannot validate a survival biomarker.
+- **GATE 2 — POPULATION INDEPENDENCE (disqualifying).** No shared patients and no shared
+  selection/accrual pipeline with METABRIC. (Shared *antibody-panel lineage* is NOT leakage — only
+  shared patients or selection pipeline disqualifies.)
 
-**Excluded (with reason):**
-- **Ali 2020 (Nat Cancer, METABRIC IMC):** same METABRIC cohort + same 37-marker IMC panel as the
-  validation set's lineage → using it for discovery would **leak into validation**. Not independent.
-- **Wang/Hartmann spatial proteomics:** LC-MS region proteomics, no antibody panel — wrong protein
-  class, doesn't bridge to METABRIC-IMC.
+## Eligibility table (gates applied to every candidate)
+
+| Cohort | Platform | GATE 1 (endpoint) | GATE 2 (independence) | ELIGIBLE? |
+|---|---|---|---|---|
+| **Jackson/Basel 2020** | IMC | **PASS** — "patient overall survival"; Cox on "disease-specific overall survival" (Fig 4/4i) | **PASS** — Univ. Hospitals **Basel + Zurich (Switzerland)**, Swiss ethics 2014-397/2012-0553; METABRIC = citation only | **YES** |
+| **Keren 2018** | MIBI | **PASS** — "recurrence and overall survival (OS)" | **PASS** — **Stanford Hospital, USA, 2002–2015**, single-institution | **YES** (TNBC-only caveat) |
+| **Meyer 2025 (Bodenmiller TNBC)** | **IMC** | **PASS** — phenotype "correlated with rapid disease recurrence" (recurrence/DFS axis) | **likely PASS — WALL** — raw files "ZTMA174/ZTMA249" ⇒ Zurich TMAs (independent), but origin sentence is behind paywalled Methods; not confirmed | **PROVISIONAL** (2 walls) |
+| **Engelhardt/Chang CycIF (VUMC/OHSU)** | **CycIF** (not IMC/MIBI/CODEX) | **PASS** — "overall survival (OS) and recurrence-free survival (RFS)" | **PASS** — **Vanderbilt UMC, USA** surgical TMAs | **YES** (platform caveat) |
+| **Risom 2022 (DCIS)** | MIBI | **FAIL** — only "ipsilateral breast event (iBE)"/DCIS→IBC progression; no OS/DFS | PASS (US RAHBT/TBCRC, independent) | **NO — Gate 1** |
+| **Ali 2020 (METABRIC-IMC)** | IMC | PASS (METABRIC OS/DFS) | **FAIL** — IS the METABRIC cohort (same patients) | **NO — Gate 2** |
+| **Wang 2023** | (reuses Basel/METABRIC) | — | **FAIL** — method on existing METABRIC/Basel data, not independent | **NO — Gate 2** |
+| Sorin 2023 | IMC | — | — | **NO** — lung, not breast |
+
+**Net: four survivors** — Jackson/Basel, Keren, Meyer-2025 (provisional, walls), Engelhardt/Chang
+(platform caveat). Risom is **disqualified** (the deferred gate now decides it). Ali-2020 is the
+clean example of a Gate-2 failure (it IS METABRIC).
 
 ---
 
-## Per-cohort notes
+## Ranking the survivors (tie-break only: platform comparability + panel overlap)
 
-### Jackson/Basel IMC 2020 (Nature; Bodenmiller)
-- Source: Zenodo **10.5281/zenodo.3518284** (https://zenodo.org/records/3518284) — open, CC-BY 1.0;
-  includes single-cell data, metadata, and the panel file `Basel_Zuri_StainingPanel.csv`. Also via
-  Bioconductor `imcdatasets::JacksonFischer_2020_BreastCancer`. Paper PDF paywalled; **data is not**.
-- Panel verified from Supp Table 2 (`41586_2019_1876_MOESM1_ESM.pdf`): 35 measured biomarkers,
-  tumor/epithelial-focused (CK5/7/8-18/14/panCK, ER, PR, HER2, EGFR, GATA3, E/P-cadherin, p53,
-  c-Myc, Twist, Slug, CAIX, CD44, vimentin, fibronectin, SMA, CD31, vWF, CD3, CD20, CD68, CD45,
-  Ki-67, pS6/pmTOR, cleaved-Casp3/PARP, Histone H3).
-- **Shared with METABRIC (15):** Histone H3, SMA, CK5, CK8-18, CD68, HER2, CD3, CD20, ER, Ki-67,
-  CD31, vWF, panCK, cleaved-Caspase3, cleaved-PARP. (CD45 is pan-CD45 vs METABRIC's CD45RA/RO
-  isoforms — excluded as not the same epitope.)
+Platform comparability matters because discovery→METABRIC is a cross-cohort stitch and the batch
+canary (apparatus rule 5) is far more likely to pass IMC→IMC than across platforms.
 
-### Keren 2018 MIBI-TNBC (Cell; Angelo)
-- Raw images gated behind free registration at mibi-share.ionpath.com (the wall = account creation).
-  Processed single-cell `cellData.csv` is openly mirrored (panel read from its header). **License
-  unverified** — no explicit data-license text found; confirm before any redistribution.
-- **Shared with METABRIC (16):** SMA, HLA-DR, CD68, CD163, CD3, CD16, CD45RO, FOXP3, CD20, CD8,
-  Ki-67, CD4, CD31, HLA-ABC, panCK, CD45 (+ soft Histone H3 ≈ H3K9ac/H3K27me3). **No HER2, no ER.**
+| Survivor | Platform vs METABRIC (IMC) | n (outcome-linked) | Scope | METABRIC-37 overlap | Notes |
+|---|---|---|---|---|---|
+| **Jackson/Basel** | **same (IMC)** | 281 Basel (+72 Zurich), OS | all subtypes (invasive) | **15** (verified) — epithelial-biased, incl. **ER + HER2** | fully open, CC-BY 1.0; immune-thin overlap |
+| **Meyer 2025** | **same (IMC)** | 215, recurrence | **TNBC only** | **unverified (panel wall)** — same lab as Danenberg ⇒ likely high | open Zenodo CC-BY-4.0; origin + panel both walls |
+| **Keren** | cross (MIBI) | 41 TNBC, OS+recurrence | **TNBC only** | **16** (verified) — immune-rich, **no ER/HER2** | images gated (free reg); license unverified |
+| **Engelhardt/Chang** | cross (CycIF) | 102, OS+RFS | all subtypes | **unverified (panel wall)** | open (Synapse, light reg), CC-BY-4.0; platform not IMC/MIBI/CODEX |
 
-### Risom 2022 MIBI DCIS (Cell; Angelo)
-- Open on Mendeley (CC-BY 4.0). 32 of 37 markers verified verbatim from open full text; the full
-  Table S2 / Fig 2B sit behind the Cell WAF → **~5 panel slots unverified** (pull Table S2 from the
-  Mendeley deposit to finalize). Outcome is DCIS→invasive **progression**, not survival.
+Overlap detail for the two verified panels (from real panel files):
+- **Basel↔METABRIC (15):** Histone H3, SMA, CK5, CK8-18, CD68, HER2, CD3, CD20, ER, Ki-67, CD31,
+  vWF, panCK, cleaved-Caspase3, cleaved-PARP. (pan-CD45 vs METABRIC CD45RA/RO excluded as different
+  epitopes.)
+- **Keren↔METABRIC (16):** SMA, HLA-DR, CD68, CD163, CD3, CD16, CD45RO, FOXP3, CD20, CD8, Ki-67,
+  CD4, CD31, HLA-ABC, panCK, CD45 (+ soft Histone H3).
 
 ---
 
 ## Recommendation (PENDING APPROVAL — reasoning, not a decision)
 
-**Primary recommendation: Jackson/Basel IMC 2020.** Rationale, in priority order:
-1. **Same platform as the validation cohort (IMC/Hyperion).** METABRIC-IMC is IMC; Basel is IMC. A
-   discovery→validation stitch within one platform is far less batch-confounded than a MIBI→IMC
-   cross-platform stitch (apparatus rule 5 — the batch canary is much more likely to pass). Keren
-   and Risom are MIBI; OHSU is CycIF — all cross-platform vs METABRIC.
-2. **Fully open, no wall** (Zenodo, CC-BY 1.0) — best accessibility; license documented.
-3. **Largest outcome-linked invasive cohort** (281 + 72) with OS/DFS — matches METABRIC's invasive,
-   survival-linked design (Keren is TNBC-only n=41; Risom is pre-invasive DCIS).
-4. **Contains the tumor-intrinsic anchors** ER and HER2 — so **ESR1 (ER), the panel-distal priority
-   watch-gene, is actually measured in both cohorts**, and ERBB2 too.
+**Primary: Jackson/Basel IMC 2020.** It is the only survivor that is (a) clean on **both gates with
+no walls** (OS confirmed; Swiss, independently accrued), (b) **same platform as METABRIC** (lowest
+batch-confound risk), (c) the **largest outcome-linked all-comers invasive cohort** (matching
+METABRIC's invasive, survival-linked design), and (d) measures **ER + HER2**, so the panel-distal
+watch-gene **ESR1** and the tumor anchor **ERBB2** exist in both. Caveat: Basel↔METABRIC overlap (15)
+is epithelial-biased / immune-thin.
 
-**The honest caveat:** Basel↔METABRIC overlap (15) is **epithelial-biased and immune-thin** (only
-CD3/CD20/CD68 on the immune side). If the intended biomarker thesis is **immune/stromal**, the
-shared space is richer in **Keren** (16, immune-heavy) or **Risom** (mixed) — but both cost a
-cross-platform MIBI→IMC stitch, and Keren adds TNBC-only scope + n=41 + unverified license, Risom
-adds DCIS-not-invasive + n=79. That is a **biology-vs-comparability tradeoff for the user to set**:
-- tumor-intrinsic / receptor / epithelial biomarker, clean platform match → **Basel**.
-- immune-microenvironment biomarker, accept cross-platform → **Keren** (TNBC) or **Risom** (DCIS).
+**Watch closely — Meyer 2025 (Bodenmiller TNBC IMC).** Same platform, larger TNBC discovery n (215),
+recurrence endpoint, openly deposited. If its two walls clear favourably — **(i)** patient origin
+confirmed independent of METABRIC (likely Zurich), **(ii)** antibody panel pulled from the deposited
+IMC files — it could rival or beat Basel for a TNBC/immune thesis (same-platform AND likely high
+overlap). Not recommendable until those walls are closed.
 
-## Verification gaps to close before finalizing (whichever is chosen)
-- Confirm **Basel vs METABRIC patient non-overlap** (Basel/Zurich hospitals vs METABRIC UK/Canada —
-  expected distinct, but verify, to avoid validation leakage).
-- Pull `Basel_Zuri_StainingPanel.csv` from Zenodo and re-derive the discovery↔METABRIC shared set
-  byte-exactly (resolve the pan-CD45 vs CD45RA/RO question).
-- If Risom is chosen, pull Table S2 (Mendeley) to lock the full 37-marker panel.
-- Re-intersect the chosen cohort's panel with METABRIC using the same authoritative method as Step 0.
+**Immune-thesis alternative — Keren.** If the biomarker thesis is immune/stromal, Keren's overlap is
+richer (16, immune-heavy) — at the cost of a cross-platform MIBI→IMC stitch, TNBC-only scope, n=41,
+and an unverified license.
 
-Sources: Zenodo 3518284; mibi-share.ionpath.com + Keren cellData.csv mirror; Mendeley
-10.17632/d87vg86zd8.2; PMC8792442; nature.com/articles/s41586-019-1876-x; cell.com S0092-8674(18)31100-0.
+**Engelhardt/Chang** is eligible and has good outcome data (OS+RFS, n=102, all subtypes) but is
+**CycIF, not IMC/MIBI/CODEX** — a different multiplex class; consider only if that platform is
+acceptable, and pull its 42-marker panel first.
+
+### Keren TNBC-scope caveat (calibration, not disqualifying)
+Discovering in triple-negative (Keren, Meyer) and validating in all-comers METABRIC is a **subtype
+confound**. It is handleable — validate in METABRIC's **basal/TNBC subset** rather than the whole
+cohort — so it does not disqualify, but it shrinks the effective validation n and must be declared up
+front.
+
+---
+
+## SECONDARY — is the METABRIC-IMC validation data actually in hand? **NO (panels only).**
+Local `data/panels/` holds only the panel CSVs (CosMx + METABRIC marker lists). A filesystem check
+found **no SingleCells / clinical / survival tables** anywhere local. The full validation substrate —
+single-cell expression + per-patient clinical/survival — lives **only inside the Zenodo 6036188 zip
+`MBTMEStrIMCPublic.zip` (6.65 GB)**, not yet pulled. **Fork-2 validation cannot run until those cell
++ clinical tables are obtained** (selective extraction via range requests is feasible, as done for
+the panel files). Reported, not downloaded.
+
+## Verification gaps / walls to close before finalizing
+- **Basel:** confirm whether a DFS column exists in the Zenodo metadata CSV (paper analyzes OS /
+  disease-specific OS, not DFS); re-derive Basel↔METABRIC shared set byte-exactly from
+  `Basel_Zuri_StainingPanel.csv`; resolve pan-CD45 vs CD45RA/RO.
+- **Meyer 2025:** read patient origin from the STAR Methods (confirm METABRIC-independence) and pull
+  the antibody panel from the deposited IMC files (Zenodo 10890543) — both currently walls.
+- **Engelhardt/Chang:** pull the 42-marker panel from Suppl. Table 1 / Synapse before computing
+  overlap.
+- **METABRIC-IMC:** pull SingleCells + clinical/survival from Zenodo 6036188 (validation prerequisite).
+
+Sources: Zenodo 3518284 (Basel) · zenodo 10890543 + cell.com/cancer-cell S1535-6108(25)00269-7
+(Meyer) · PMC8271023 + cell.com S0092-8674(18)31100-0 (Keren) · PMC9772081 + data.mendeley.com
+d87vg86zd8 (Risom) · PMC11948582 + Synapse syn50134757 (Engelhardt/Chang) · repository.cam.ac.uk
+Basel accepted manuscript · Zenodo 6036188 (METABRIC-IMC validation).
