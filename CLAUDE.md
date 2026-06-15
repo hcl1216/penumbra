@@ -1,47 +1,44 @@
 # Penumbra
 
-Cross-modal imputation for TME biomarker discovery. Personal research project, independent of any
-employer. Fresh repo; reuses the *apparatus* from the prior perturbation work (Operon) but none of
-its code or conclusions.
+Single-cohort spatial-proteomic TME biomarker discovery, validated in METABRIC-IMC. Personal
+research project, independent of any employer. Fresh repo; reuses the *apparatus* from the prior
+perturbation work (Operon) but none of its code or conclusions.
 
-## Goal
+**This is Fork 2.** The project pivoted off Fork 3 (cross-modal protein→RNA imputation) on
+2026-06-15 because the paired CosMx substrate Fork 3 needed is inaccessible to a solo researcher
+(protein behind AtoMx; public breast deposit is WTX RNA-only). The full Fork-3 spec is archived,
+not deleted, in [`docs/fork3_superseded.md`](docs/fork3_superseded.md) — it is a real negative
+finding. See `DECISIONS.md` (PIVOT, 2026-06-15).
 
-Train a cross-modal imputation (multiplex protein -> whole transcriptome) on same-cell spatial
-multiomics, transfer it onto an outcome-linked spatial-proteomic cohort that only measured a thin
-protein panel, and discover a TME biomarker invisible to the measured proteins -- validated against
-real clinical outcome.
+## Goal (Fork-2 thesis)
 
-- **Train / bridge:** CosMx SMI Same-Cell Multiomics (paired protein + whole transcriptome on the
-  same FFPE cell).
-- **Outcome / validation cohort:** METABRIC-IMC (Danenberg 2022) -- ~693 breast tumors, 37-protein
-  IMC + genomics + survival.
-- **Headline (if positive):** cross-platform imputation reveals a TME biomarker invisible to the
-  measured proteins, validated against outcome in METABRIC and additive over standard-of-care.
-- **Both outcomes are publishable by design.** A clean negative (imputation adds nothing over
-  measured protein) is a contrarian, useful result. Set every test up so positive AND negative are
-  interesting.
+Discover a tumor-microenvironment (TME) biomarker in **one** outcome-linked spatial-proteomic
+cohort (IMC / CODEX / MIBI), and **validate it in METABRIC-IMC** (Danenberg 2022; ~693 breast
+tumors, 37-protein IMC + genomics + survival). No imputation, no paired data, no cross-modal
+aligner — so the imputation/circularity threat that sank Fork 3 is gone. Discovery and validation
+both live in **protein space**, and cross-cohort validation runs over the **markers shared between
+the discovery cohort and METABRIC** (the approved 22-protein partition is the starting shared set).
 
----
-
-## STATUS: Phase 0 -- Gate-1 kill test. Skeleton committed (6fccf97). All 3 panel name-lists IN HAND (authoritative): CosMx IO protein (Bruker), CosMx WTx genes (Bruker), METABRIC-IMC 37-marker (Zenodo 6036188, Danenberg 2022). Step 0 (panel overlap) DONE + review-resolved -- structural lock recorded (input set == adjacency set == 22 shared proteins); partition = **23 panel-adjacent / 18,910 panel-distal** genes (25 shared cognate genes; HLA-DRB1 & FCGR3A absent from WTx). **PENDING REVIEW -> approvable** (results/phase0_step0_*). ERBB2 = only tumor-intrinsic anchor; ESR1 = panel-distal watch-gene. STOP for sign-off before Gate A. CosMx slide still absent (required for Gates A-D).
-
-Do **not** build the imputer until the information is proven present. Phase 0 is a sequence of cheap
-kill gates run almost entirely within a **single** CosMx slide. The Phase-0 deliverable is a verdict:
-KILL (write the negative) or PROCEED.
-
-**First actions for Claude Code (blocking -- do these before any modeling):**
-1. Confirm the CosMx breast multiomic slide is downloaded and record its path (see Data).
-2. Obtain the two panel lists (CosMx 64-plex IO protein targets; METABRIC/Ali-2020 37-marker list)
-   and run Step 0 (panel overlap) -- everything downstream depends on the panel-adjacent / panel-
-   distal partition it produces.
-Do not start coding the gates against absent data; if either input is missing, say so and stop.
+- **Discovery cohort:** one public spatial-proteomic breast cohort with linked outcome — **TBD**
+  (cohort scoping is the current open decision; PENDING approval).
+- **Validation cohort:** METABRIC-IMC (Danenberg 2022), public. Authoritative 37-marker panel in
+  hand (`data/panels/`).
+- **Headline (if positive):** a TME biomarker discovered in one cohort and validated against real
+  outcome in METABRIC, additive over standard-of-care.
+- **Both outcomes are publishable by design.** A clean negative (the biomarker does not replicate /
+  adds nothing over standard markers) is a contrarian, useful result. Set every test up so positive
+  AND negative are interesting.
 
 ---
 
-## Logging discipline -- the decision log is not optional
+## STATUS: Fork 2 — Phase 0 (cohort scoping). Pivoted off Fork 3 (2026-06-15; data-layer blocked, archived in docs/). Carried over: apparatus, the APPROVED Step-0 22-protein shared partition (final; commit a1dec02; repurposed as the protein space shared with METABRIC). Fork-2 Phase-0 gate sequence = TODO (next design pass). Current open item: discovery-cohort scoping (Keren MIBI-TNBC, Jackson/Basel IMC, others) — PENDING APPROVAL. The WTX RNA-only CosMx breast slide is NOT a Fork-2 input.
+
+---
+
+## Logging discipline — the decision log is not optional
 
 Every session **must** append an entry to `DECISIONS.md` (reverse-chronological, newest on top)
-whenever ANY of these happen -- no exceptions:
+whenever ANY of these happen — no exceptions:
 - a gate produces a verdict (pass/fail) or **any** quantitative result;
 - a kill criterion fires;
 - we pivot, change scope, or abandon an approach;
@@ -60,19 +57,6 @@ is the durable, human-readable trail and `results/` holds the artifacts.
 
 ---
 
-## The binding constraint -- read before writing any code
-
-The only open paired CosMx breast multiomic data is **one demonstration slide** (one patient). So the
-only holdout available is held-out **cells from the same patient and batch**. That tests whether
-protein -> RNA generalizes to new cells of the same tissue -- necessary, very weak. It **cannot** test
-cross-patient or cross-platform transfer, which is what this project actually needs.
-
-Consequence: Phase 0 can only **falsify** (fail within-slide -> dead) or **earn the right to
-continue**. A within-slide pass is **not** evidence the project works. Never report or treat a
-within-slide result as transfer evidence.
-
----
-
 ## Apparatus (non-negotiable; inherited)
 
 1. **Floors-first.** Establish a noise floor and an honest non-novel baseline before any model.
@@ -85,119 +69,71 @@ within-slide result as transfer evidence.
 4. **Leakage controls.** Shuffle / regress-out / hold-out to prove a signal isn't a trivial coupling
    or an artifact.
 5. **Batch canary** for any cross-study / cross-platform stitch. If batch ~= signal, the stitch is
-   confounded.
+   confounded. (Binding for Fork 2: discovery cohort → METABRIC is exactly such a stitch.)
 6. **Both outcomes interesting.** Always.
 7. **Don't make an unsolved problem a prerequisite.** Borrow the hard parts; contribute the edge.
-8. **Record design before running, results after** -- in this file and in `results/`.
+8. **Record design before running, results after** — in this file and in `results/`.
 
 ---
 
-## Build vs borrow
+## The shared protein space (carried over from Step 0; APPROVED, final)
 
-There is **no drop-in protein -> RNA imputer** for same-cell spatial multiomics. Closest prior art is
-RNA -> RNA spatial imputation (SpaFormer, and the scVI / SAVER / Tangram / SpaGE / Sprod family) and
-RNA -> protein (scProSpatial) -- wrong direction or wrong modality. So: **borrow the evaluation
-protocol and baseline set; build the protein -> RNA map yourself.**
+Step 0 intersected the CosMx IO protein panel with METABRIC's 37-marker IMC panel and built the
+authoritative protein→gene map. Result (commit a1dec02, APPROVED — do not relitigate):
+**22 shared protein channels → 25 cognate genes**; partition of the WTx transcriptome into
+**23 panel-adjacent / 18,910 panel-distal** genes (artifacts in `results/phase0_step0_*`;
+script `scripts/phase_0_00_panel_overlap.py`).
 
-In Phase 0 the candidate map is **per-gene ridge / gradient-boosting** from the shared proteins
-(+ spatial features). **No neural imputer in Phase 0.** If a tuned GBM can't clear the floor, a
-transformer won't, and the build is saved.
+**Repurposing under Fork 2.** This is no longer an imputation adjacency partition. It now defines
+the **protein feature space shared with METABRIC** — the candidate markers along which a
+discovery-cohort finding can be cross-validated in METABRIC-IMC. When the discovery cohort is
+chosen, intersect ITS panel with METABRIC the same way (vendor/official panel files only, HARD
+RULE below) to get the discovery↔METABRIC shared markers; the 22-protein CosMx∩METABRIC set is the
+reference for what METABRIC contributes.
 
----
-
-## Phase 0 plan -- the Gate-1 kill test
-
-All within the CosMx slide except Gate E.
-
-**Step 0 -- shared space.** Intersect the CosMx 64-plex IO protein list with METABRIC's 37 markers;
-build the protein -> gene map (Ki67 -> MKI67; CD3 -> CD3D/E/G; PanCK -> KRT5/8/18/19; etc.). Partition
-the transcriptome into **panel-adjacent** (a shared protein measures the gene) vs **panel-distal**
-(none does). This partition is the whole point of Gate D.
-
-> **STRUCTURAL LOCK (binding; do not relitigate).** The imputer's **input feature set == the
-> adjacency-defining set == the shared proteins** (everything METABRIC has at transfer). A gene is
-> panel-adjacent iff it is a cognate of a shared protein; polygenic/combined shared channels expand
-> to **all** their cognate genes, so a directly-measured molecule can never sit in panel-distal and
-> let the model post fake headroom. Training on all 62 CosMx proteins is **not** the binding gate --
-> the ~40 non-shared IO proteins directly measure their own genes, which must then leave panel-distal;
-> any all-62 run is a separate upper bound carrying its **own larger** adjacency partition.
->
-> Step-0 resolved result (PENDING REVIEW -> approvable): **22 shared protein channels -> 25 cognate
-> genes; 23 panel-adjacent / 18,910 panel-distal** WTx genes. Adjacent set is immune-/stromal-
-> dominated; **ERBB2 is the only tumor-intrinsic anchor**. **ESR1 (ER)** is in METABRIC but not CosMx
-> IO -> panel-distal **priority watch-gene**. (FCGR3A/CD16 shared but absent from WTx; HLA-DRB1 absent
-> from WTx; Histone H3 / DNA1 / DNA2 dropped.) Details: `results/phase0_step0_*`.
-
-**Gate A -- noise / detection floor.** No technical cell replicate exists -> build the floor by
-**binomial split-half** of each cell's counts; compute per-gene split-half reliability at this depth.
-Drop genes with ~0 reliability (unpredictable in principle). Report median counts/cell, n cells, n
-detectable genes. Evaluation runs only on detectable genes.
-
-**Gate B -- baselines + the bar.** On held-out cells, the map must beat, by a margin whose bootstrap
-CI over cells excludes zero:
-1. global mean profile,
-2. library-size-scaled mean,
-3. **spatial k-NN average** (neighbours' mean RNA, no protein -- the killer),
-4. **cell-type mean** (type from protein or RNA clusters -> per-type mean RNA).
-Beating 1-2 is trivial; 3 and 4 are the real bars.
-
-**Gate C -- leakage controls.** Shuffle protein across cells -> must collapse to the no-protein
-baseline. Regress out total counts + segmentation area on both sides -> signal must survive removing
-the cell-size axis (the most likely artifact). Lateral spillover is partly absorbed by baseline 3.
-
-**Gate D -- headroom (centerpiece + kill criterion).** Decompose (model - best baseline) by
-panel-adjacent vs panel-distal genes, against the cell-type mean.
-**KILL:** if the map beats baselines only on panel-adjacent genes and collapses to cell-type-mean on
-panel-distal genes, the premise is falsified -- protein carries no transferable information about
-programs it doesn't directly measure, so any downstream "biomarker invisible to the proteins" is
-cell-type in disguise. Write that negative and stop.
-
-**Gate E -- cross-cohort check (only if A-D pass; separate phase, needs the build + harmonization).**
-Harmonize the shared proteins CosMx <-> METABRIC IMC (fluorescence Ab-oligo vs Hyperion metal-tag --
-run the batch canary on the shared markers first). Impute onto METABRIC, pseudobulk per patient,
-correlate vs each patient's real METABRIC bulk RNA (METABRIC patients already have bulk
-transcriptomes; Curtis 2012). Floor = cohort-mean bulk / scrambled patient labels. This is the only
-cross-patient, cross-platform signal available without new data.
+> **HARD RULE (panels).** Every panel / marker fact comes from a real file or official source —
+> **never reconstructed or approximated from model knowledge.** A wrong panel silently corrupts the
+> shared-marker set and every cross-cohort claim built on it. If a panel is behind a wall
+> (login / form / unparseable PDF), report the wall and stop — do not substitute a remembered list.
 
 ---
 
-## Metric
+## Phase 0 plan (Fork 2) — TODO (next design pass)
 
-cell-eval / PDS does **not** port (that's perturbation *discrimination*, not imputation accuracy).
-Use **per-gene correlation of held-out cells after subtracting the cell-type mean** (does the map
-predict within-type residual variation?). Report the **distribution across genes + bootstrap CIs**;
-signal = (model - best baseline) per gene. **Never report a single mean correlation alone** -- it is
-flattered by the easy panel-adjacent genes.
+> **TODO STUB — do not invent the gate sequence yet.** The Fork-2 Phase-0 kill-gate sequence is to
+> be designed jointly in the next session. It must instantiate the apparatus above for a
+> *discovery-in-one-cohort → validate-in-METABRIC* design (noise/detection floor; honest non-novel
+> baselines incl. cell-type and standard clinical markers; leakage controls; **batch canary on the
+> shared markers** before any cross-cohort claim; size-the-effect before building). Do NOT start
+> building any Fork-2 gate or model until this plan is written and approved.
 
----
-
-## Kill criteria (fixed before running)
-
-Project is dead at Phase 0 if either:
-- (i) no protein -> RNA map beats spatial-kNN **and** cell-type-mean on held-out cells (Gate B), or
-- (ii) the map beats them **only** on panel-adjacent genes (Gate D).
-
-Gate E is the transfer gate, but A-D come first and cost ~a day. On a KILL, the deliverable is the
-written negative result.
+Decided inputs already in place: the apparatus, the approved 22-protein shared partition, the
+METABRIC-IMC validation target, and the panel HARD RULE. Open input: the discovery cohort (scoping
+below).
 
 ---
 
 ## Checkpoints
 
-After **each** gate: write the result to `results/`, update this file's STATUS, and **STOP for
-review** before proceeding. Do not advance Gate D -> E, and do not build any non-baseline / non-GBM
-model, without an explicit go.
+After **each** gate/step: write the result to `results/`, update this file's STATUS, and **STOP for
+review** before proceeding. Do not finalize the discovery cohort, and do not build any model, without
+an explicit go.
 
 ---
 
 ## Data
 
-- **CosMx breast multiomic (Phase 0):** single FFPE slide, 64-plex IO protein + >18k WTx RNA, same
-  cell. Open demonstration dataset from Bruker Spatial Biology.
-  **TODO: download, record path here, verify license terms.** Raw lives on Google Drive
-  (Colab-mounted).
-- **METABRIC-IMC (Gate E / later):** Danenberg 2022, public. Plus METABRIC bulk RNA (Curtis 2012)
-  for the Gate-E pseudobulk check.
+- **Validation cohort — METABRIC-IMC (Danenberg 2022):** public. Authoritative 37-marker IMC panel
+  acquired (Zenodo 6036188, CC-BY-4.0) — `data/panels/metabric_markers.txt` (+ raw CSVs,
+  provenance in `data/panels/PROVENANCE.md`). METABRIC bulk RNA (Curtis 2012) and clinical/survival
+  available if needed downstream.
+- **Discovery cohort — TBD:** one public spatial-proteomic breast cohort (IMC/CODEX/MIBI) with
+  linked outcome; see cohort scoping (PENDING approval). Panel must be obtained from a real
+  file / official source (HARD RULE).
+- **Reference panels in hand:** CosMx IO protein (Bruker) and CosMx WTx genes (Bruker) — used for
+  the Step-0 partition; CosMx itself is no longer a data dependency.
+- **NOT an input:** the public CosMx WTX RNA-only breast slide. It carries no protein and is not a
+  Fork-2 dependency; any in-progress download of it can be abandoned.
 - Raw data and checkpoints live on Drive (Colab is ephemeral). Code lives in git. Keep only small /
   derived artifacts under `data/`.
 
@@ -217,39 +153,40 @@ model, without an explicit go.
 
 ---
 
-## Suggested layout
+## Layout
 
 ```
 penumbra/
   CLAUDE.md
   README.md
-  config.(yaml|py)                 # paths (slide, drive, results) -- not hard-coded in scripts
-  data/                            # small / derived only; raw on Drive
+  config.py                        # paths (drive, results, panels) -- not hard-coded in scripts
+  data/panels/                     # authoritative panel name-lists (tracked) + provenance
+  docs/
+    fork3_superseded.md            # archived Fork-3 spec (negative finding; not active)
   scripts/
-    phase_0_00_panel_overlap.py    # Step 0: overlap + panel-adjacent/distal partition
-    phase_0_01_load_qc.py          # load slide, QC, counts/cell, n cells, n genes
-    phase_0_02_noise_floor.py      # Gate A: binomial split-half reliability -> detectable gene set
-    phase_0_03_baselines.py        # Gate B: mean / libsize / spatial-kNN / cell-type
-    phase_0_04_model.py            # candidate map: per-gene ridge / GBM from shared proteins
-    phase_0_05_leakage.py          # Gate C: shuffle protein, regress out size + seg area
-    phase_0_06_headroom.py         # Gate D: adjacent vs distal decomposition + verdict
-  results/                         # gate outputs, figures, verdicts (mirror to Drive)
+    phase_0_00_panel_overlap.py    # Step 0 (DONE, APPROVED): shared-protein partition -- carries over
+    phase_0_01_load_qc.py ...      # SUPERSEDED Fork-3 imputation-gate stubs; await Fork-2 redesign
+  results/                         # step/gate outputs, figures, verdicts (mirror to Drive)
 ```
 
-Phase 0 is **done** when Gates A-D have a recorded verdict and this file's STATUS is updated.
+The `phase_0_01..06` scripts are empty Fork-3 imputation-gate stubs (superseded). Leave them until
+the Fork-2 Phase-0 plan is designed, then repurpose/replace.
 
 ---
 
 ## Do not
 
-- Do not build a neural imputer (or any non-GBM model) in Phase 0.
-- Do not advance past a gate without the recorded verdict + review.
-- Do not treat or report a within-slide result as transfer evidence.
-- Do not weaken a baseline to make the map look better.
-- Do not report a single mean correlation alone.
-- Do not reintroduce surface-protein CITE-seq / spatial-CITE-seq as imputation training data --
-  wrong protein class; CosMx (intracellular-capable) is the deliberate bridge.
-- Do not try to "fix" the single-slide limit by pretending held-out cells test transfer.
+- Do not finalize the discovery cohort, or build any Fork-2 gate/model, without the written +
+  approved Fork-2 Phase-0 plan and an explicit go.
+- Do not advance past a step/gate without the recorded verdict + review.
+- Do not reconstruct or approximate any panel/marker list from memory (HARD RULE) — real file or
+  official source only; report walls.
+- Do not make a cross-cohort claim before the batch canary on the shared markers passes.
+- Do not weaken a baseline (incl. cell-type mean and standard clinical markers) to make a finding
+  look better.
+- Do not relitigate the approved Step-0 22-protein partition or the pivot off Fork 3.
+- Do not treat the CosMx WTX RNA-only breast slide as a Fork-2 input.
 
-The full master design doc (survey, the falsified Operon arc, and the wider list of what not to
-relitigate) lives outside this repo. If context seems missing, ask -- don't reconstruct it.
+The full master design doc (survey, the falsified Operon arc, the Fork-3 negative, and the wider
+list of what not to relitigate) lives outside this repo. If context seems missing, ask — don't
+reconstruct it.

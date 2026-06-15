@@ -1,13 +1,17 @@
 # Penumbra
 
-Cross-modal imputation for tumor-microenvironment (TME) biomarker discovery. We train a
-**multiplex protein → whole-transcriptome** map on same-cell spatial multiomics (CosMx SMI),
-transfer it onto an outcome-linked spatial-proteomic cohort that measured only a thin protein
-panel (METABRIC-IMC), and test whether the imputation reveals a TME biomarker invisible to the
-measured proteins — validated against real clinical outcome. Both outcomes are publishable by
-design: a clean negative (imputation adds nothing over measured protein) is a useful, contrarian
-result. The project is currently at **Phase 0**, a sequence of cheap kill gates run within a
-single CosMx slide; see [CLAUDE.md](CLAUDE.md) for the full design, apparatus, and kill criteria.
+Spatial-proteomic tumor-microenvironment (TME) biomarker discovery. **This is Fork 2:** discover a
+TME biomarker in **one** outcome-linked spatial-proteomic breast cohort (IMC / CODEX / MIBI) and
+**validate it in METABRIC-IMC** (Danenberg 2022) — discovery and validation both in protein space,
+over the markers shared between the two cohorts. No imputation, no paired data. Both outcomes are
+publishable by design: a clean negative (the biomarker doesn't replicate / adds nothing over
+standard markers) is a useful, contrarian result. The project is at **Phase 0** (cohort scoping;
+the gate sequence is the next design pass). See [CLAUDE.md](CLAUDE.md) for the full design and
+apparatus.
+
+The project pivoted off **Fork 3** (cross-modal protein→RNA imputation) on 2026-06-15 — the paired
+CosMx substrate it needed is inaccessible to a solo researcher. That spec is archived as a real
+negative finding in [docs/fork3_superseded.md](docs/fork3_superseded.md).
 
 ## Where work happens (the Claude Code / Colab / Drive split)
 

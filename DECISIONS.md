@@ -12,6 +12,27 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-15 - PIVOT - Off Fork 3, onto Fork 2 (single-cohort biomarker discovery)
+**Reason (verbatim):** the open paired CosMx breast multiomic substrate is confirmed inaccessible to
+a solo researcher (protein lives behind AtoMx, no instrument/tenant access; the public breast deposit
+is WTX RNA-only). Fork-3-as-written is blocked at the data layer. Fork 2 = discover a TME biomarker in
+ONE spatial-proteomic cohort (IMC/CODEX/MIBI), validate in METABRIC-IMC. No imputation, no paired
+data, no aligner — so the imputation/circularity threat is gone. The apparatus and the 22-protein
+partition carry over unchanged (still protein space, METABRIC still the validation target).
+**Consequence:** Fork-3 imputation machinery (protein->RNA premise, CosMx paired-slide dependency,
+one-slide ceiling, build-vs-borrow imputer, Gates A-E) is superseded/archived, not deleted (a real
+negative finding). Apparatus, logging discipline, infra/conventions, checkpoint-and-stop, and the
+approved 22-protein partition carry over. New Fork-2 Phase-0 gate sequence is a TODO for the next
+design pass (not invented here). **Note:** the WTX RNA-only public breast slide is NOT a Fork-2 input;
+any in-progress download of it is NOT a Phase-0 dependency and can be abandoned.
+
+### 2026-06-15 - DECISION - Step-0 panel partition APPROVED (final)
+**Numbers:** 22 shared proteins; 23 panel-adjacent / 18,910 panel-distal; structural lock recorded
+(commit a1dec02).
+**Consequence:** The Step-0 partition is FINAL — do not relitigate. Under Fork 2 it is repurposed:
+it defines the **protein feature space shared with METABRIC** for cross-cohort validation (no longer
+an imputation adjacency partition). Carries over unchanged.
+
 ### 2026-06-15 - RESULT - Step 0 partition RESOLVED (review pass); structural lock recorded; approvable
 **Numbers:** 22 shared protein channels -> 25 distinct cognate genes; **panel-adjacent = 23**,
 **panel-distal = 18,910** (WTx 18,933). Changes vs first pass (+2 adjacent): HLA-DR expanded to
