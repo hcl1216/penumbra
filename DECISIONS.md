@@ -12,7 +12,23 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
-### 2026-06-15 - RESULT - Step 0 panel overlap produced; partition PENDING REVIEW
+### 2026-06-15 - RESULT - Step 0 partition RESOLVED (review pass); structural lock recorded; approvable
+**Numbers:** 22 shared protein channels -> 25 distinct cognate genes; **panel-adjacent = 23**,
+**panel-distal = 18,910** (WTx 18,933). Changes vs first pass (+2 adjacent): HLA-DR expanded to
+{HLA-DRA, HLA-DRB5} and CD31-vWF to {PECAM1, VWF}.
+**Consequence:** Review items resolved from the two panel files (no memory reconstruction):
+(1) **STRUCTURAL LOCK** recorded in CLAUDE.md + Step-0 output -- input feature set == adjacency-
+defining set == the 22 shared proteins; polygenic/combined shared channels expand to ALL cognate
+genes; an all-62 run is a separate upper bound with its own larger partition, NOT the binding gate.
+(2) **panCK/CK8-18 keratins:** CosMx IO has NO keratin channel at all -> KRT5/8/18/19 in WTx but
+CORRECTLY panel-distal (not a dropped mapping). HLA-ABC likewise not shared (no MHC-I in CosMx) ->
+HLA-A/B/C distal. (3) c-Caspase3c-PARP split into CASP3+PARP1 (not shared -> distal). (4) FCGR3A/CD16
+kept (shared but absent from WTx); Histone H3/DNA1/DNA2 kept dropped. Gate-D notes: adjacent set is
+immune-/stromal-dominated, **ERBB2 the only tumor-intrinsic anchor**; **ESR1 (ER) flagged as panel-
+distal priority watch-gene** (in METABRIC, not CosMx IO). Partition **approvable**; Gate A remains
+blocked on the absent CosMx slide.
+
+### 2026-06-15 - RESULT - Step 0 panel overlap produced; partition PENDING REVIEW (superseded by resolution above)
 **Numbers:** CosMx IO 62 proteins (65 distinct genes) ∩ METABRIC 39 channels (36 gene-mappable,
 3 dropped: Histone H3, DNA1, DNA2) = **22 shared channels -> 22 genes**. WTx = 18,933 genes.
 Partition: **panel-adjacent = 21**, **panel-distal = 18,912**. (One shared gene, FCGR3A/CD16, is

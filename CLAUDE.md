@@ -23,7 +23,7 @@ real clinical outcome.
 
 ---
 
-## STATUS: Phase 0 -- Gate-1 kill test. Skeleton committed (6fccf97). All 3 panel name-lists IN HAND (authoritative): CosMx IO protein (Bruker), CosMx WTx genes (Bruker), METABRIC-IMC 37-marker (Zenodo 6036188, Danenberg 2022). Step 0 (panel overlap) DONE -- 22 shared protein channels, partition = 21 panel-adjacent / 18,912 panel-distal genes, **PENDING REVIEW** (results/phase0_step0_*). STOP for sign-off before Gate A. CosMx slide still absent (not needed for Step 0; required for Gates A-D).
+## STATUS: Phase 0 -- Gate-1 kill test. Skeleton committed (6fccf97). All 3 panel name-lists IN HAND (authoritative): CosMx IO protein (Bruker), CosMx WTx genes (Bruker), METABRIC-IMC 37-marker (Zenodo 6036188, Danenberg 2022). Step 0 (panel overlap) DONE + review-resolved -- structural lock recorded (input set == adjacency set == 22 shared proteins); partition = **23 panel-adjacent / 18,910 panel-distal** genes (25 shared cognate genes; HLA-DRB1 & FCGR3A absent from WTx). **PENDING REVIEW -> approvable** (results/phase0_step0_*). ERBB2 = only tumor-intrinsic anchor; ESR1 = panel-distal watch-gene. STOP for sign-off before Gate A. CosMx slide still absent (required for Gates A-D).
 
 Do **not** build the imputer until the information is proven present. Phase 0 is a sequence of cheap
 kill gates run almost entirely within a **single** CosMx slide. The Phase-0 deliverable is a verdict:
@@ -113,6 +113,20 @@ All within the CosMx slide except Gate E.
 build the protein -> gene map (Ki67 -> MKI67; CD3 -> CD3D/E/G; PanCK -> KRT5/8/18/19; etc.). Partition
 the transcriptome into **panel-adjacent** (a shared protein measures the gene) vs **panel-distal**
 (none does). This partition is the whole point of Gate D.
+
+> **STRUCTURAL LOCK (binding; do not relitigate).** The imputer's **input feature set == the
+> adjacency-defining set == the shared proteins** (everything METABRIC has at transfer). A gene is
+> panel-adjacent iff it is a cognate of a shared protein; polygenic/combined shared channels expand
+> to **all** their cognate genes, so a directly-measured molecule can never sit in panel-distal and
+> let the model post fake headroom. Training on all 62 CosMx proteins is **not** the binding gate --
+> the ~40 non-shared IO proteins directly measure their own genes, which must then leave panel-distal;
+> any all-62 run is a separate upper bound carrying its **own larger** adjacency partition.
+>
+> Step-0 resolved result (PENDING REVIEW -> approvable): **22 shared protein channels -> 25 cognate
+> genes; 23 panel-adjacent / 18,910 panel-distal** WTx genes. Adjacent set is immune-/stromal-
+> dominated; **ERBB2 is the only tumor-intrinsic anchor**. **ESR1 (ER)** is in METABRIC but not CosMx
+> IO -> panel-distal **priority watch-gene**. (FCGR3A/CD16 shared but absent from WTx; HLA-DRB1 absent
+> from WTx; Histone H3 / DNA1 / DNA2 dropped.) Details: `results/phase0_step0_*`.
 
 **Gate A -- noise / detection floor.** No technical cell replicate exists -> build the floor by
 **binomial split-half** of each cell's counts; compute per-gene split-half reliability at this depth.
