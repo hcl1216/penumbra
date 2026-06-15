@@ -31,7 +31,7 @@ the discovery cohort and METABRIC** (the approved 22-protein partition is the st
 
 ---
 
-## STATUS: Fork 2 — Phase 0 (cohort scoping). Pivoted off Fork 3 (2026-06-15; data-layer blocked, archived in docs/). Carried over: apparatus, the APPROVED Step-0 22-protein shared partition (final; commit a1dec02; repurposed as the protein space shared with METABRIC). Fork-2 Phase-0 gate sequence = TODO (next design pass). Current open item: discovery-cohort scoping (Keren MIBI-TNBC, Jackson/Basel IMC, others) — PENDING APPROVAL. The WTX RNA-only CosMx breast slide is NOT a Fork-2 input.
+## STATUS: Fork 2 — Phase 0 (cohort scoping). Pivoted off Fork 3 (2026-06-15; data-layer blocked, archived in docs/). Carried over: apparatus, the APPROVED Step-0 22-protein shared partition (final; commit a1dec02; repurposed as the protein space shared with METABRIC). Fork-2 Phase-0 gate sequence = TODO (next design pass). Current open item: discovery-cohort scoping DONE (docs/fork2_cohort_scoping.md) — recommend **Jackson/Basel IMC** (same-platform, open, ER+HER2; immune-thin caveat), alternatives Keren/Risom; **PENDING APPROVAL, not finalized**. The WTX RNA-only CosMx breast slide is NOT a Fork-2 input.
 
 ---
 

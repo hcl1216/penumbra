@@ -12,6 +12,20 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-15 - DECISION - Fork-2 discovery-cohort scoping reported (recommendation PENDING APPROVAL; NOT finalized)
+**Numbers:** candidates w/ METABRIC-37 marker overlap (source-verified): Jackson/Basel IMC 15
+(epithelial-biased, incl. ER+HER2; same platform as METABRIC; open CC-BY 1.0; n=281+72; OS/DFS),
+Keren MIBI-TNBC 16 (immune-rich, no ER/HER2; images gated, license unverified; n=41; OS+recurrence),
+Risom MIBI-DCIS 16 (mixed; open CC-BY 4.0; n=79; progression). OHSU CycIF excluded on platform; Ali
+2020 excluded (= METABRIC lineage, validation leakage).
+**Consequence:** Report in `docs/fork2_cohort_scoping.md`. Recommendation = **Jackson/Basel IMC**
+(same-platform IMC->IMC minimizes batch confound, fully open, largest outcome-linked invasive cohort,
+has ER/HER2 so ESR1 watch-gene measured in both) — with the explicit caveat that its overlap is
+immune-thin, so an immune-biomarker thesis would favor Keren/Risom at a cross-platform cost.
+**NOT finalized** — awaiting user go. Verification gaps to close before commit (Basel↔METABRIC patient
+non-overlap; re-derive shared set from Basel panel CSV; Risom Table S2). Do NOT build until cohort
+approved + Fork-2 Phase-0 plan written.
+
 ### 2026-06-15 - PIVOT - Off Fork 3, onto Fork 2 (single-cohort biomarker discovery)
 **Reason (verbatim):** the open paired CosMx breast multiomic substrate is confirmed inaccessible to
 a solo researcher (protein lives behind AtoMx, no instrument/tenant access; the public breast deposit
