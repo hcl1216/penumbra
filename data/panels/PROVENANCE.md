@@ -39,6 +39,30 @@ Retrieved 2026-06-15.
   "18,934 targets") + 50 negative-control probes (`Negative1..50`, no symbol) + 1 footer row.
   Negative controls and footer must be dropped at Step 0 cleaning.
 
+## Fork-2 discovery-cohort panels (for protein-marker overlap) — all from real source files
+
+- **Jackson/Basel IMC** — `basel_zuri_stainingpanel_RAW.csv`, range-extracted from Zenodo **3518284**
+  (`SingleCell_and_Metadata.zip` → `Data_publication/Basel_Zuri_StainingPanel.csv`), CC-BY 1.0.
+  sha256 `3706c0c7b07e2947…`. NOTE: Gd156 = `Rabbit IgG H L` (control), **no Estrogen Receptor** in
+  this panel. Patient metadata (`Basel_PatientMetadata.csv`) confirms `OSmonth` + `DFSmonth` columns.
+- **Keren MIBI-TNBC** — `keren_mibi_panel_RAW.txt`, verbatim `cellData.csv` column header (the channels
+  ARE the columns), open mirror github.com/jhausserlab/NIPMAP.
+- **Engelhardt/Chang CycIF** — `engelhardt_cycif_proteins_RAW.csv`, fetched from authors' repo
+  github.com/engjen/cycIF_TMAs (`data/proteins_by_frame.csv`), 42 markers. sha256 `719f2128c89702de…`.
+- **Meyer 2025 IMC** — `meyer2025_imc_panel_RAW.tsv`, from deposited raw IMC acquisition `.txt` headers
+  (Zenodo **10890543**, `ZTMA174/249_raw.zip`), CC-BY-4.0, read by research agent via HTTP range.
+  Cytokeratin channel identities are clone-truncated in the export → flagged provisional.
+
+Overlap computed by `scripts/fork2_marker_overlap.py` → `results/fork2_marker_overlap.md`.
+
+## METABRIC-IMC validation data (Zenodo 6036188) — partial pull
+- **Clinical/survival:** `IMCClinical.fst` range-extracted to `data/metabric/` (gitignored,
+  patient-level). 709 patients × 11 cols; endpoint = `yearsToStatus` + `DeathBreast`
+  (breast-cancer-specific survival); 230 events. sha256 `ba435cabb9e462e0…`.
+  (Read with R `fst` package, **AGPL-3** — logged; install.packages('fst').)
+- **Single-cell expression:** `SingleCells.csv` (849 MB) / `SingleCells.fst` (341 MB) — INVENTORIED
+  only, range-extractable, not pulled (pull when the gate sequence needs it).
+
 ## 3. METABRIC-IMC (Danenberg 2022) marker panel  ✅ IN HAND (authoritative)
 
 - **Source:** Zenodo record **6036188** ("Breast tumour microenvironment structures are associated

@@ -12,6 +12,26 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-15 - RESULT - Compartment-split protein-marker overlap for all 4 survivors; Meyer walls resolved; METABRIC clinical pulled
+**Numbers (shared antibody targets w/ METABRIC-37, byte-exact from real panel files; immune/stromal/
+epi-tumor):** Basel 15 (3/3/6) CD8– FOXP3– ER– HER2+ ; Keren 18 (14/2/2) CD8+ FOXP3+ ER– HER2– ;
+Engelhardt CycIF 15 (7/3/5) CD8+ FOXP3+ ER+ HER2+ ; Meyer 16 (8/2/3 +CK provisional) CD8+ FOXP3– ER+ HER2+.
+**Key findings:**
+- **CORRECTION:** Basel does NOT measure ER (deposited panel Gd156 = Rabbit IgG control; only PR+HER2).
+  Earlier "Basel ER+HER2" was wrong; real file overrides. Basel Gate 1 confirmed OS+DFS (both columns).
+- **Meyer-2025 walls resolved → ELIGIBLE:** origin = Univ. Hospital Zurich (USZ, 2005–2017), independent
+  of METABRIC (Gate 2 PASS); panel obtained from deposited raw IMC headers (IMC, ~37 Ab; CK clone
+  identities still walled → provisional). Has CD8+ER+HER2 but NO FOXP3.
+- Keren overlap is 18 (byte-exact caught OX40, CD11c), immune-richest incl CD8+FOXP3+PD1+OX40.
+**METABRIC validation data:** clinical IMCClinical.fst IN HAND (709 pts; endpoint yearsToStatus+
+DeathBreast = BC-specific survival; 230 events; ER 542+/151−). Single-cell SingleCells.csv(849MB)/
+.fst(341MB) INVENTORIED, range-extractable, NOT pulled.
+**Consequence:** tradeoff surfaced in docs/fork2_cohort_scoping.md (no recommendation; thesis axis
+open): immune thesis → Keren/Engelhardt (cross-platform) or Meyer (same-platform, no FOXP3);
+receptor/epithelial thesis → Engelhardt/Meyer (have ER) or Basel (no ER); same-platform IMC → Basel
+or Meyer. **PENDING REVIEW; no cohort picked.** New panels tracked in data/panels/; overlap script
+scripts/fork2_marker_overlap.py.
+
 ### 2026-06-15 - RESULT - Eligibility gates applied to Fork-2 cohort candidates; Risom disqualified, 4 survivors
 **Gates (both disqualifying, run BEFORE ranking):** G1 endpoint must match METABRIC OS/DFS axis;
 G2 population independent of METABRIC (no shared patients/accrual pipeline).

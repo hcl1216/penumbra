@@ -1,0 +1,48 @@
+# Meyer et al. 2025 (Cancer Cell) Bodenmiller TNBC IMC -- panel from deposited raw IMC data
+# Source: acquisition .txt headers inside ZTMA174_raw.zip / ZTMA249_raw.zip,
+#   Zenodo record 10890543 (CC-BY-4.0), read via HTTP range by research agent (not memory).
+#   Paper STAR Methods Key-Resources-Table (clone numbers + exact CK identities) is paywalled.
+# IMC exports TRUNCATE antibody labels; the CK channels below are clone-truncated and their
+# exact identity (CK5 / CK8-18 / CK19 / panCK ...) is NOT resolvable from the .txt header alone
+# -> CK overlap with METABRIC is reported PROVISIONAL in the overlap script, not counted strict.
+# Columns: metal<TAB>verbatim_label<TAB>target_reading
+metal	verbatim_label	target
+In113	Histone_126	Histone H3
+La139	H3K27me_473	H3K27me3
+Pr141	Cytoker_651	Cytokeratin (clone-walled)
+Nd142	Fibrone_328	Fibronectin
+Nd143	HLA-DR_1849	HLA-DR
+Nd144	Cytoker_97	Cytokeratin (clone-walled)
+Nd145	CD15_627	CD15
+Nd146	CD68_77	CD68
+Sm147	Keratin_346	Keratin (clone-walled)
+Nd148	SMA_174	SMA
+Sm149	Vimenti_192	Vimentin
+Nd150	c-Myc_322	c-Myc
+Eu151	c-erbB-_201	HER2 (c-erbB-2)
+Sm152	CD3_1841	CD3
+Eu153	Histone_phospho_125	phospho-Histone H3
+Sm154	CD11c_1890	CD11c
+Gd155	Bcl-2_698	Bcl-2
+Gd156	Estroge_110	Estrogen Receptor (ER)
+Gd158	Progest_312	Progesterone Receptor (PR)
+Tb159	p53_207	p53
+Gd160	CD44_69	CD44
+Dy161	Androge_236	Androgen Receptor (AR)
+Dy162	CD45_71	CD45 (pan)
+Dy163	GATA3_117	GATA3
+Dy164	CD20_36	CD20
+Ho165	CD8a_1718	CD8a
+Er166	Carboni_2443	Carbonic Anhydrase IX (CAIX)
+Er167	E-Cadhe_103	E-Cadherin
+Er168	Ki-67_142	Ki-67
+Tm169	EGFR_102	EGFR
+Er170	S6_phospho_2300	phospho-S6
+Yb171	CD4_2331	CD4
+Yb172	vWF_378	vWF
+Yb173	mTOR_phospho_204	phospho-mTOR
+Yb174	Cytoker_98	Cytokeratin (clone-walled)
+Lu175	Keratin_685	Keratin (clone-walled)
+Yb176	Cleaved_93	cleaved Caspase3 / cleaved PARP (apoptosis)
+Ir191	Iridium	DNA1
+Ir193	Iridium	DNA2

@@ -1,0 +1,8 @@
+# Keren et al. 2018 MIBI-TNBC -- VERBATIM panel (raw, not cleaned)
+# Source: cellData.csv column header (the measured channels ARE the columns), open mirror
+#   https://raw.githubusercontent.com/jhausserlab/NIPMAP/main/TMENS_analysis/data/cellData.csv
+# Verbatim header line below; antibody/marker channels are between cellSize and the
+# annotation columns. Non-marker columns (metadata SampleID/cellLabelInImage/cellSize;
+# elemental C,Na,Si,P,Ca,Fe,Ta,Au,Background; DNA dsDNA; annotations tumorYN/tumorCluster/
+# Group/immuneCluster/immuneGroup) are excluded by the overlap script.
+SampleID,cellLabelInImage,cellSize,C,Na,Si,P,Ca,Fe,dsDNA,Vimentin,SMA,Background,B7H3,FoxP3,Lag3,CD4,CD16,CD56,OX40,PD1,CD31,PD-L1,EGFR,Ki67,CD209,CD11c,CD138,CD163,CD68,CSF-1R,CD8,CD3,IDO,Keratin17,CD63,CD45RO,CD20,p53,Beta catenin,HLA-DR,CD11b,CD45,H3K9ac,Pan-Keratin,H3K27me3,phospho-S6,MPO,Keratin6,HLA_Class_1,Ta,Au,tumorYN,tumorCluster,Group,immuneCluster,immuneGroup

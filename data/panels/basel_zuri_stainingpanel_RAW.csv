@@ -1,0 +1,53 @@
+Tube Number,Metal Tag,Target,Antibody Clone,Stock Concentration,Final Concentration / Dilution,uL to add,ilastik,SegmentationStack,FullStack
+,Ar80,ArgonDimers,,,,,,,1
+,Ru96,RutheniumTetroxide,,,,,,,2
+,Ru98,RutheniumTetroxide,,,,,,,3
+,Ru99,RutheniumTetroxide,,,,,,,4
+,Ru100,RutheniumTetroxide,,,,,,,5
+,Ru101,RutheniumTetroxide,,,,,,,6
+,Ru102,RutheniumTetroxide,,,,,,,7
+,Ru104,RutheniumTetroxide,,,,,,,8
+,,,,,,,,,
+653,In113,Histone H3,D1H2,200,8 ug/mL,4,1,1,9
+734,La139,Histone H3,C36B11,200,8 ug/mL,4,0,,12
+555,Pr141,Cytokeratin 5,EP1601Y,200,6 ug/mL,3,1,2,13
+641,Nd142,Fibronectin,10/Fibronectin,100,4 ug/mL,4,1,3,14
+637,Nd143,Cytokeratin 19,Troma-III,200,6 ug/mL,3,1,4,15
+559,Nd144,Cytokeratin 8/18,C51,200,4 ug/mL,2,1,5,16
+561,Nd145,Twist,polyclonal_Twist1_ABD29,150,8 ug/mL,5.333333333,0,,17
+649,Nd146,CD68,KP1,200,8 ug/mL,4,1,6,18
+648,Sm147,Keratin 14 (KRT14),Polyclonal_CK14,50,1 ug/mL,2,1,7,19
+636,Nd148,SMA,1A4,400,2 ug/mL,0.5,1,8,20
+562,Sm149,Vimentin,D21H3,200,1 ug/mL,0.5,1,9,21
+563,Nd150,c-Myc,90000000000,150,8 ug/mL,5.333333333,0,,22
+432,Eu151,c-erbB-2 - Her2,3B5,200,8 ug/mL,4,1,10,23
+689,Sm152,CD3,polyclonal_3,150,8 ug/mL,5.333333333,1,11,24
+531,Eu153,Histone H3, ,200,6 ug/mL,3,0,,25
+565,Sm154,Erk1/2,D13.14.4E,200,8 ug/mL,4,0,,26
+265,Gd155,Slug,C19G7,200,8 ug/mL,4,0,,27
+845,Gd156,Rabbit IgG H L,Polyclonal anti Rabbit IgG H L,400,4 ug/mL,1,0,,28
+650,Gd158,Progesterone Receptor A/B,EP2,100,8 ug/mL,8,1,12,29
+434,Gd158,Progesterone Receptor A/B,SP2,100,8 ug/mL,8,0,,29
+529,Tb159,p53,7F5,200,8 ug/mL,4,0,,30
+142,Gd160,CD44,polyclonal_4,300,6 ug/mL,2,1,13,31
+846,Dy161,EpCAM,9C4,400,8 ug/mL,2,0,,32
+566,Dy162,CD45,2B11,200,8 ug/mL,4,1,14,33
+568,Dy163,GATA3,L50-823,200,8 ug/mL,4,0,,34
+768,Dy164,CD20,L26,200,8 ug/mL,4,1,15,35
+494,Ho165,b-Catenin,D13A1,200,8 ug/mL,4,1,16,36
+295,Er166,Carbonic Anhydrase IX,AF2188,200,8 ug/mL,4,0,,37
+567,Er167,undefined,undefined,150,8 ug/mL,5.333333333,1,17,38
+791,Er168,Ki-67,8D5,100,3 ug/mL,3,1,18,39
+48,Tm169,EGFR,D38B1,190,8 ug/mL,4.210526316,0,,40
+638,Er170,S6,D57.2.2E,200,6 ug/mL,3,0,,41
+532,Yb171,Sox9,polyclonal-Sox9,200,6 ug/mL,3,0,,42
+643,Yb172,vWF,poly vwf,150,6 ug/mL,4,1,,43
+557,Yb172,CD31,HC1/6,100,8 ug/mL,8,0,,43
+363,Yb173,mTOR,49F9,200,8 ug/mL,4,0,,44
+688,Yb174,Cytokeratin 7,RCK105,200,8 ug/mL,4,1,19,45
+606,Lu175,pan Cytokeratin,AE1,142,0.5 ug/mL,0.352112676,1,20,46
+788,Lu175,Keratin Epithelial, clone AE3,200,0.5 ug/mL,0.25,0,,46
+655,Yb176,cleaved PARP,F21-852,100,8 ug/mL,8,1,,47
+656,Yb176,Cleaved Caspase3,C92-605,150,8 ug/mL,5.333333333,0,,47
+,Ir191,DNA1,,,,,1,21,48
+,Ir193,DNA2,,,,,0,,49
