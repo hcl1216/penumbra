@@ -12,6 +12,34 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-15 - RESULT - Meyer CKs resolved (feature space final = 20 markers); METABRIC validation subset pinned
+**Task 1 — Meyer cytokeratins resolved** from the study's own deposited SCE `rowData/clean_target`
+(Zenodo 15304181, sce_ALL_sub.rds; real source, not memory): Pr141=CK5, Nd144=CK8/18, Sm147=KRT14,
+Yb174=CK7, Lu175=panCK (vendor clones still paywalled; overlap by target). Re-ran
+scripts/fork2_marker_overlap.py → **Meyer ∩ METABRIC = 20 markers** (was 16+prov): immune 8
+{CD3,CD4,CD8,CD11c,CD15,CD20,CD68,HLA-DR}, stromal 2 {SMA,vWF}, epithelial-tumor 7
+{CK5,CK8,CK18,panCK,ER,HER2,Ki-67}, other 3 {Histone H3, cleaved-Casp3, cleaved-PARP}. **This is the
+LOCKED working feature space.** (No CD31 — Meyer has vWF not CD31; no FOXP3 by design.)
+**Task 2 — METABRIC validation subset** (from IMCClinical.fst; no PR field → ER−/HER2− is closest to
+Meyer's TNBC): **primary def A ER−/HER2− (ERStatus=neg & ERBB2_pos=FALSE) = 88 patients, 34 BC-death
+events**, median follow-up 6.25 yr. Alternatives: PAM50 Basal = 88/35; A∩Basal = 62/23. Power is
+limited (~34 events) → gate design must favor few pre-specified hypotheses over wide scans.
+**Consequence:** feature space + validation cohort size are now fixed; ready for Fork-2 gate-sequence
+design. Single-cell expression still NOT pulled (range-extractable when needed).
+
+### 2026-06-15 - DECISION - Fork-2 cohorts LOCKED: discovery = Meyer 2025 TNBC IMC; validation = METABRIC TNBC/basal subset
+**Decision (do not relitigate):**
+- **Discovery = Meyer 2025** (TNBC IMC, USZ/Zurich, n=215, survival endpoint).
+- **Validation = METABRIC, restricted to the TNBC/basal subset** (subtype-matched to Meyer's TNBC).
+- The **Meyer ∩ METABRIC shared marker space is the working feature set** for the whole project.
+**Reasoning:** Meyer is same-platform as METABRIC (IMC→IMC, cleanest batch canary), its shared space
+carries **CD8 + ER + HER2**, and it is population-independent of METABRIC (USZ Zurich vs UK/Canada).
+**FOXP3 deliberately NOT required** → the Treg/exhaustion-subtype thesis is out of scope; the project
+scope is **CD8/cytotoxic-architecture + receptor-context**. Keren and Engelhardt set aside.
+**Consequence:** next pass = Fork-2 gate-sequence design on this locked feature set. Before that, two
+closing items: resolve Meyer's clone-walled cytokeratins (finalize epithelial overlap) and pin the
+METABRIC TNBC/basal validation-subset n + event count (statistical power).
+
 ### 2026-06-15 - RESULT - Compartment-split protein-marker overlap for all 4 survivors; Meyer walls resolved; METABRIC clinical pulled
 **Numbers (shared antibody targets w/ METABRIC-37, byte-exact from real panel files; immune/stromal/
 epi-tumor):** Basel 15 (3/3/6) CD8– FOXP3– ER– HER2+ ; Keren 18 (14/2/2) CD8+ FOXP3+ ER– HER2– ;

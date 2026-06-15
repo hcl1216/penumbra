@@ -1,9 +1,17 @@
-# Fork-2 discovery-cohort scoping — ELIGIBILITY-GATED + PROTEIN-MARKER OVERLAP — PENDING REVIEW
+# Fork-2 cohorts — LOCKED (2026-06-15)
 
-Status: **report only — no cohort picked, nothing built. NO recommendation (thesis axis is open).**
-This pass adds, for every gate-clean survivor, the **byte-exact, compartment-split shared
-protein-marker list** (from real panel files) so the biology/thesis decision can be read off the
-actual markers. Revised 2026-06-15.
+> **DECISION LOCKED (do not relitigate; see DECISIONS.md):**
+> - **Discovery = Meyer 2025** (TNBC IMC, USZ/Zurich, n=215, survival endpoint).
+> - **Validation = METABRIC, TNBC/basal subset** (subtype-matched).
+> - **Working feature space = Meyer ∩ METABRIC = 20 shared protein markers** (see §2.1).
+> - Chosen for: same-platform-as-METABRIC (cleanest batch canary), shared space carries
+>   **CD8 + ER + HER2**, population-independent. **FOXP3 deliberately NOT required** → Treg/
+>   exhaustion-subtype thesis is out of scope; scope = **CD8/cytotoxic-architecture + receptor-context**.
+>   Keren & Engelhardt set aside.
+
+The scoping that led here is retained below for the record. This pass also (a) resolved Meyer's
+clone-walled cytokeratins from the study's own deposited SCE data → final byte-exact overlap, and
+(b) pinned the METABRIC validation-subset size (§4). Revised 2026-06-15.
 
 **Protein-marker, not gene.** Fork 2 has no RNA. Overlap = "which antibody targets are measured in
 BOTH the discovery cohort and METABRIC-IMC," canonicalized at the marker/epitope level
@@ -45,7 +53,7 @@ METABRIC-IMC validation panel = 37 markers → 39 canonical tokens.
 | Cohort | Platform vs METABRIC | n (outcome) | Scope | **Shared** | immune | stromal | epi-tumor | CD8 | FOXP3 | ER | HER2 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | **Jackson/Basel** | **same (IMC)** | 281+72, OS+DFS | all subtypes | **15** | 3 | 3 | 6 | – | – | – | **✔** |
-| **Meyer 2025** | **same (IMC)** | 215, OS/DFS+recur | **TNBC** | **16** (+CK prov.) | 8 | 2 | 3 (+CK) | **✔** | – | **✔** | **✔** |
+| **Meyer 2025** (LOCKED) | **same (IMC)** | 215, OS/DFS+recur | **TNBC** | **20** | 8 | 2 | 7 | **✔** | – | **✔** | **✔** |
 | **Keren** | cross (MIBI) | 41, OS+recur | **TNBC** | **18** | 14 | 2 | 2 | **✔** | **✔** | – | – |
 | **Engelhardt** | cross (CycIF) | 102, OS+RFS | all subtypes | **15** | 7 | 3 | 5 | **✔** | **✔** | **✔** | **✔** |
 
@@ -53,9 +61,18 @@ Exact shared markers per compartment (from the real panel files):
 
 - **Jackson/Basel (15):** immune = CD3, CD20, CD68 · stromal = SMA, CD31, vWF · epithelial-tumor =
   CK5, CK8, CK18, HER2, Ki-67, panCK · other = Histone H3, cleaved-Casp3, cleaved-PARP.
-- **Meyer 2025 (16 + CK provisional):** immune = CD3, CD4, CD8, CD11c, CD15, CD20, CD68, HLA-DR ·
-  stromal = SMA, vWF · epithelial-tumor = ER, HER2, Ki-67 (**+ ≥3 clone-walled CK channels → likely
-  CK5/CK8-18/panCK by metal layout, UNCONFIRMED**) · other = Histone H3, cleaved-Casp3, cleaved-PARP.
+- **Meyer 2025 (20) — LOCKED feature space:** immune = CD3, CD4, CD8, CD11c, CD15, CD20, CD68,
+  HLA-DR · stromal = SMA, vWF · epithelial-tumor = CK5, CK8, CK18, panCK, ER, HER2, Ki-67 ·
+  other = Histone H3, cleaved-Casp3, cleaved-PARP. (CK identities resolved from the study's own
+  deposited SCE `clean_target`, Zenodo 15304181: Pr141=CK5, Nd144=CK8/18, Lu175=panCK; CK7/CK14 also
+  on the panel but not in METABRIC. Vendor clone names remain paywalled; overlap is by target.)
+
+### 2.1 The LOCKED working feature space (Meyer ∩ METABRIC = 20 markers)
+- **immune (8):** CD3, CD4, CD8, CD11c, CD15, CD20, CD68, HLA-DR
+- **stromal (2):** SMA, vWF   *(note: no CD31 — Meyer carries vWF, not CD31; no FOXP3 by design)*
+- **epithelial-tumor (7):** CK5, CK8, CK18, panCK, ER, HER2, Ki-67
+- **other/functional (3):** Histone H3, cleaved-Caspase3, cleaved-PARP
+This 20-marker set is what every Fork-2 gate and the cross-cohort validation will run on.
 - **Keren (18):** immune = CD3, CD4, CD8, CD11c, CD16, CD20, CD45RO, CD68, CD163, FOXP3, HLA-DR,
   HLA-ABC, OX40, PD-1 · stromal = SMA, CD31 · epithelial-tumor = Ki-67, panCK.
 - **Engelhardt (15):** immune = CD3, CD4, CD8, CD20, CD68, FOXP3, PD-1 · stromal = SMA, CD31,
@@ -109,6 +126,22 @@ basal/TNBC subset) is handleable, not disqualifying.
 - **Single-cell expression — INVENTORIED, not pulled.** `SingleCells.csv` (849 MB) and
   `SingleCells.fst` (341 MB) inside the same zip; both range-extractable (Zenodo serves byte ranges).
   Pull when the gate sequence calls for it, not now.
+
+### 4.1 Validation subset size + power (the cohort the design runs on)
+From `IMCClinical.fst` (709 patients). No PR field → not strict triple-negative; the closest
+subtype-match to Meyer's TNBC discovery is the **receptor-defined ER−/HER2− subset**:
+
+| Definition | n | BC-death events | censored | follow-up median |
+|---|---|---|---|---|
+| **A. ER−/HER2−** (`ERStatus=neg & ERBB2_pos=FALSE`) — **primary** | **88** | **34** | 54 | 6.25 yr |
+| B. PAM50 = Basal | 88 | 35 | 53 | — |
+| C. ER−/HER2− AND PAM50 Basal (strictest) | 62 | 23 | 39 | — |
+
+**Validation cohort = 88 patients, 34 breast-cancer-death events** (definition A). This is modest —
+the Fork-2 gate sequence and any survival test must be designed for ~34 events (power-limited; favors
+a small number of pre-specified marker hypotheses over wide scans). Definitions B/C are near-identical
+/ stricter alternatives to pre-register. (METABRIC's own internal `isValidation` split within A is
+56/32, but Fork 2 uses METABRIC purely as the external validation cohort, so all 88 are in play.)
 
 ## 5. Remaining walls / verification to-dos
 - **Meyer:** exact cytokeratin identities (CK5 vs CK8-18 vs panCK) are clone-truncated in the deposit;

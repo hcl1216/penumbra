@@ -50,8 +50,10 @@ Retrieved 2026-06-15.
 - **Engelhardt/Chang CycIF** — `engelhardt_cycif_proteins_RAW.csv`, fetched from authors' repo
   github.com/engjen/cycIF_TMAs (`data/proteins_by_frame.csv`), 42 markers. sha256 `719f2128c89702de…`.
 - **Meyer 2025 IMC** — `meyer2025_imc_panel_RAW.tsv`, from deposited raw IMC acquisition `.txt` headers
-  (Zenodo **10890543**, `ZTMA174/249_raw.zip`), CC-BY-4.0, read by research agent via HTTP range.
-  Cytokeratin channel identities are clone-truncated in the export → flagged provisional.
+  (Zenodo **10890543**, `ZTMA174/249_raw.zip`), CC-BY-4.0, read via HTTP range. Cytokeratin channel
+  TARGET identities RESOLVED from the study's own deposited SCE `rowData/clean_target`
+  (Zenodo **15304181**, `sce_ALL_sub.rds`): Pr141=CK5, Nd144=CK8/18, Sm147=KRT14, Yb174=CK7,
+  Lu175=panCK. Vendor clone names remain paywalled (STAR Methods); overlap is by target.
 
 Overlap computed by `scripts/fork2_marker_overlap.py` → `results/fork2_marker_overlap.md`.
 
