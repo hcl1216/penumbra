@@ -12,6 +12,25 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - RESULT - Colab runner + data-to-Drive manifest ready (front-end runs on Colab)
+**Built:** thin Colab notebook `notebooks/fork2_01_colab_runner.ipynb` (mount Drive → clone github.com/
+hcl1216/penumbra → BiocManager install SingleCellExperiment/FlowSOM/imcRtools/cytomapper + fst/survival
+→ `Rscript scripts/fork2_01_typing_floors.R` → print R1–R4). Logic stays in the git `.R` script (not
+reimplemented in the notebook). Script made Colab-ready (minimal edits, still runs locally): input/
+output paths from env vars (MEYER_SCE / METABRIC_SC / PENUMBRA_RESULTS_DIR) defaulting to repo layout.
+**Script now emits 4 review artifacts (stdout + Drive results/):** R1 marker-status (resolves locked-20
+→ 19 drop Histone H3 absent in Meyer → 17 analysis channels: CK8&CK18 share CK8-18, cl-Casp3&cl-PARP
+share one, vWF via CD31-vWF); R2 cluster→type + Meyer% vs METABRIC% side-by-side; R3 Gate-B canary with
+numbers + margin (stable per-type profile divergence vs CD8-fraction cross-patient SD / cross-cohort
+shift); R4 Gate-A Meyer-fit Cox floors (CD8-fraction composition + grade+stage SoC composite, labeled
+"additive over grade+stage" since METABRIC has no age). **HARD GUARD:** halts if CD8 or all cytokeratins
+drop from the harmonized set (primary CD8↔CK+ proximity would be impossible). **HARD STOP after Gate A**
+(no Gate-C proximity, no hand-rolled clustering). FlowSOM SOM trained on 200k balanced subsample then
+mapped to all ~1.21M cells (RAM-safe; High-RAM Colab recommended).
+**Manual next steps (user):** (1) move 3 objects to Drive per manifest; (2) push repo to GitHub
+(no remote configured locally — needed before the notebook can clone); (3) run notebook; (4) paste
+R1–R4 back for review BEFORE Gate C. FLAG: repo public/private unverified → notebook supports both.
+
 ### 2026-06-16 - RESULT - PART 3 build BLOCKED locally (Bioconductor unreachable); front-end script ready for Colab
 **Blocker (environment):** the mandated IMC cell-typing ecosystem can't be installed on the local
 Windows box. **bioconductor.org is UNREACHABLE** (curl HTTP 000 / 25s timeout; R available.packages
