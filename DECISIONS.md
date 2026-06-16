@@ -12,6 +12,24 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - DECISION - Gate C built (pre-registered, Meyer only); awaiting Colab run for results
+**Built** scripts/fork2_02_gateC_proximity.R (+ notebook cells 7-8). Pre-registered, NOT tuned vs survival:
+- PRIMARY = infiltrated-fraction: % of a patient's CD8 T cells within **20um** (frozen, juxtacrine range)
+  of a CK+ tumour cell. SECONDARY (exploratory, multiplicity-flagged) = median CD8->nearest CK+ distance.
+- Cell types from committed typing (results/fork2_celltypes_meyer.csv). Distances via **imcRtools**
+  (minDistToCells for distances; buildSpatialGraph expansion@20um + aggregateNeighbors for the fraction),
+  PER IMAGE (img_id=sample_id); only the per-patient summary pools a patient's CD8 across cores. Coords
+  assumed um. Zero-CD8 patients excluded+reported; CD8 in tumour-free cores = not-infiltrating (kept in
+  denominator), excluded from secondary median only.
+- Analysis (Meyer DFS Cox): primary vs the FLAT composition floor (CD8 frac) -> HR/CI/C/dC; secondary
+  labeled exploratory. **Type-preserving within-core permutation** (shuffle cell_type within each core
+  over the FIXED 20um graph; N_PERM=499) -> null of the primary's Cox |z| + C; real must exceed null AND
+  permuted C must collapse toward floor. Density/core confound = Spearman(primary vs n_CD8 / area / ncell).
+  Convergence = Spearman(primary, secondary).
+**HARD STOP after Meyer fit + permutation; METABRIC untouched; feature NOT locked for Gate D (reviewer
+call).** Results (HR/CI/dC, permutation p, density, convergence) pending the Colab run -> R5
+(results/fork2_R5_gateC.md). Next: user runs, pastes R5 for review before Gate D.
+
 ### 2026-06-16 - RESULT - Re-run PASSES: typing now coherent; Gate A + Gate B clear -> ready for Gate C
 **R2 (typing, FIXED):** 25 metaclusters -> 7 coherent types. Fractions Meyer/METABRIC: Tumor_epithelial
 33.2/52.6, Other 42.6/30.8, Stroma_endothelial 7.8/5.7, CD8_T 5.6/4.2, CD4_T 4.8/2.9, Myeloid 3.3/1.8,
