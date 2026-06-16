@@ -12,6 +12,18 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - RESULT - Fork-2 single-cell data pulled + VERIFIED; both pass (coords + linkage + survival)
+**Meyer (Zenodo 15304181, sce_ALL_sub.rds):** SCE 36 markers × 92,899 cells, 215 patients; coords
+Pos_X/Pos_Y ✓; 19/20 shared markers (Histone H3 absent — structural "other", irrelevant); endpoint
+status_DFS+DFS_months (48 events/198; recurrence) and status_OS+OS_months (42 events); SoC age/grade/
+pTNM. **METABRIC (Zenodo 6036188, SingleCells.fst):** 1,123,466 cells × 55 cols; coords
+Location_Center_X/Y ✓; 20/20 markers; metabric_id joins IMCClinical (707/709 imaged); **TNBC subset
+ER−/HER2− = 88 pts, 87 imaged, 34 events, 172,074 cells**; SoC Grade/size/nodes — **no age**.
+**VERDICT: PASS — build may proceed.** Flags: (1) METABRIC has no age → transferable SoC composite =
+grade+stage, not age (adjusts Gate-A floor); (2) endpoint difference Meyer recurrence vs METABRIC
+BC-death (stated assumption); (3) METABRIC isTumour flags ~92% cells tumour → unreliable, use own
+typing. Raw objects gitignored. Report: results/fork2_data_verify.md.
+
 ### 2026-06-15 - DECISION - Fork-2 Phase-0 gate sequence LOCKED; primary feature = CD8↔tumor proximity
 **Binding constraint:** 34 validation events → ≤3 pre-specified spatial features (1 primary);
 METABRIC TNBC subset (88/34) = underpowered independent REPLICATION (Meyer n=215 carries effect-
