@@ -12,6 +12,23 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - RESULT - Re-run PASSES: typing now coherent; Gate A + Gate B clear -> ready for Gate C
+**R2 (typing, FIXED):** 25 metaclusters -> 7 coherent types. Fractions Meyer/METABRIC: Tumor_epithelial
+33.2/52.6, Other 42.6/30.8, Stroma_endothelial 7.8/5.7, CD8_T 5.6/4.2, CD4_T 4.8/2.9, Myeloid 3.3/1.8,
+B_cell 2.7/2.1. Garbage drawer resolved: B cells (mc23 CD20=0.88) and myeloid (mc16 CD15=1.0/CD68=0.69;
+mc22 CD68=0.83/CD11c=0.70) now their own types; the all-high doublet (mc24 CD3+CD4+CD20+HLA-DR) correctly
+quarantined to Other. **CD8 mask clean** (mc20/21/25, CD8 0.74-0.95, CD8>=CD4) and unchanged at 5.6/4.2
+-> CD8 ID was robust to the refinement. Tumor mask CK+-driven. Remaining Other (42.6% Meyer) is genuine
+background/apoptotic/borderline-DC and does NOT contaminate the CD8 or tumor masks.
+**R3 (Gate B canary):** PASS, stronger -- stable-quantity divergence **0.074** (was 0.166); every real
+lineage profile corr >=0.92 cross-cohort (B 0.95, Myeloid 0.94, CD4 0.93, CD8 0.93, Stroma 0.92, Tumor
+0.83); CD8-frac margin 4.60. Batch well below the signal axis.
+**R4 (Gate A floors):** unchanged (CD8 fraction robust) -- composition floor CD8-frac p=0.69 (FLAT, the
+low bar); SoC = nodes (pN2 HR6.2, pN3 HR8.6).
+**VERDICT: Gate A + Gate B PASS; cell-typing sound. CLEARED to build Gate C** (CD8<->CK+ tumor proximity
+primary feature + position-permutation control), pending go. Gate C must use imcRtools for spatial/
+distance (no hand-rolling); fit on Meyer only; STOP before Gate D (METABRIC untouched).
+
 ### 2026-06-16 - DECISION - Cell-typing refined after R2 review (priority + doublet quarantine + higher k)
 **Change to scripts/fork2_01_typing_floors.R (logic only; design unchanged):** metacluster k 12 -> 25;
 annotation rule rewritten to the design priority **Tumor > B > Myeloid > CD8 > CD4 > Stroma > Other**
