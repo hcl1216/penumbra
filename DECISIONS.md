@@ -12,6 +12,13 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - RESULT - Front end ran on Colab (R1-R4); Gate A/B OK, but cell-typing too coarse -> Gate C NOT ready
+**R1 (markers):** 20 -> 19 (Histone H3 absent in Meyer) -> 17 channels; HARD GUARD passed (CD8 + cytokeratins present). Clean.
+**R2 (typing) — PROBLEM:** 12 metaclusters collapsed to only 4 types. CD8_T 5.6%/4.2% (Meyer/METABRIC), Tumor_epithelial 24.6%/35.2% (both plausible), CD4_T 24.9%/16.2%, **Other 44.9%/44.4% (~half unclassified)**. The CD4_T bucket is a GARBAGE DRAWER: it absorbs B cells (mc11 CD20=0.88, mc12 CD20=1.0) and myeloid (mc8 CD15=1.0/CD68=0.69, mc10 CD68=0.83/CD11c=0.70/HLA-DR=0.80) because the annotation rule tests CD4>=0.2 before CD20/CD68 and CD4 is promiscuous. **No B_cell / Myeloid / Stroma types emerge.** Tumor(CK+) and CD8(mc9, CD8=0.79) masks look usable, but typing must be fixed (resolution + rule priority) before it underpins the proximity feature.
+**R3 (Gate B canary):** PASS (provisional). Per-type cross-cohort profile corr: CD8 0.93, CD4 0.90, Tumor 0.77, Other 0.63; stable-quantity divergence 0.166; CD8-frac cross-patient SD 0.0575 vs cross-cohort shift 0.0125 -> **margin 4.60** (batch below signal axis). Robust on the CD8/tumor axes that matter; re-confirm after typing fix.
+**R4 (Gate A floors, Meyer DFS, n=152/40 events; dropped from 215 for missing SoC covariates):** composition floor CD8-fraction coef -1.18, **p=0.69 (FLAT / non-prognostic)** -- this is the LOW BAR the spatial feature must beat (good for the thesis). SoC composite: grade p=0.26 (n.s.), **nodes dominate (pN2 HR 6.2 p=1e-4; pN3 HR 8.6 p<1e-4)**; transferable as grade+stage.
+**VERDICT:** Gate A + Gate B informative and provisionally pass; **Gate C BLOCKED on cell-typing refinement** (fix R2: prioritize Tumor>B>Myeloid>CD8>CD4>Stroma, raise metacluster k, handle the all-high doublet cluster, reduce ~45% Other). Artifacts in Drive results/fork2_R1-R4. STOP for review before re-running + Gate C.
+
 ### 2026-06-16 - RESULT - Colab runner + data-to-Drive manifest ready (front-end runs on Colab)
 **Built:** thin Colab notebook `notebooks/fork2_01_colab_runner.ipynb` (mount Drive → clone github.com/
 hcl1216/penumbra → BiocManager install SingleCellExperiment/FlowSOM/imcRtools/cytomapper + fst/survival
