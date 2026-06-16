@@ -31,7 +31,7 @@ the discovery cohort and METABRIC** (the approved 22-protein partition is the st
 
 ---
 
-## STATUS: Fork-2 cohorts LOCKED; feature space + validation subset fixed; next pass = gate-sequence design. Pivoted off Fork 3 (2026-06-15; data-layer blocked, archived in docs/). Carried over: apparatus, APPROVED Step-0 partition (commit a1dec02). **LOCKED: discovery = Meyer 2025 TNBC IMC (USZ/Zurich, n=215, survival); validation = METABRIC TNBC/basal subset.** Chosen for same-platform-as-METABRIC (cleanest batch canary), CD8+ER+HER2 in shared space, population-independent; FOXP3 deliberately NOT required (scope = CD8/cytotoxic-architecture + receptor-context; Treg-subtype thesis out). **Working feature space = Meyer ∩ METABRIC = 20 protein markers** (immune 8: CD3/CD4/CD8/CD11c/CD15/CD20/CD68/HLA-DR; stromal 2: SMA/vWF; epi-tumor 7: CK5/CK8/CK18/panCK/ER/HER2/Ki-67; other 3: HistoneH3/cl-Casp3/cl-PARP). Meyer CKs resolved from deposited SCE clean_target (Zenodo 15304181). **Validation cohort = METABRIC ER−/HER2− subset: 88 patients, 34 BC-death events** (power-limited → few pre-specified hypotheses). Fork-2 Phase-0 gate sequence = TODO (next design pass, on this locked feature set). Single-cell expression (SingleCells 849MB/341MB) range-extractable, NOT pulled yet. WTX RNA-only CosMx slide is NOT a Fork-2 input. Artifacts: docs/fork2_cohort_scoping.md, results/fork2_marker_overlap.md, data/metabric/IMCClinical.fst.
+## STATUS: Fork-2 cohorts + 20-marker feature space + 88/34 validation subset LOCKED; gate sequence LOCKED (primary = CD8↔tumor proximity; see Phase 0 plan). Building front end (data verify → harmonize → cell-typing → Gate B canary → Gate A floors), STOP before Gate-C proximity feature. Pivoted off Fork 3 (2026-06-15; data-layer blocked, archived in docs/). Carried over: apparatus, APPROVED Step-0 partition (commit a1dec02). **LOCKED: discovery = Meyer 2025 TNBC IMC (USZ/Zurich, n=215, survival); validation = METABRIC TNBC/basal subset.** Chosen for same-platform-as-METABRIC (cleanest batch canary), CD8+ER+HER2 in shared space, population-independent; FOXP3 deliberately NOT required (scope = CD8/cytotoxic-architecture + receptor-context; Treg-subtype thesis out). **Working feature space = Meyer ∩ METABRIC = 20 protein markers** (immune 8: CD3/CD4/CD8/CD11c/CD15/CD20/CD68/HLA-DR; stromal 2: SMA/vWF; epi-tumor 7: CK5/CK8/CK18/panCK/ER/HER2/Ki-67; other 3: HistoneH3/cl-Casp3/cl-PARP). Meyer CKs resolved from deposited SCE clean_target (Zenodo 15304181). **Validation cohort = METABRIC ER−/HER2− subset: 88 patients, 34 BC-death events** (power-limited → few pre-specified hypotheses). Fork-2 Phase-0 gate sequence = TODO (next design pass, on this locked feature set). Single-cell expression (SingleCells 849MB/341MB) range-extractable, NOT pulled yet. WTX RNA-only CosMx slide is NOT a Fork-2 input. Artifacts: docs/fork2_cohort_scoping.md, results/fork2_marker_overlap.md, data/metabric/IMCClinical.fst.
 
 ---
 
@@ -98,18 +98,55 @@ reference for what METABRIC contributes.
 
 ---
 
-## Phase 0 plan (Fork 2) — TODO (next design pass)
+## Phase 0 plan (Fork 2) — LOCKED gate sequence
 
-> **TODO STUB — do not invent the gate sequence yet.** The Fork-2 Phase-0 kill-gate sequence is to
-> be designed jointly in the next session. It must instantiate the apparatus above for a
-> *discovery-in-one-cohort → validate-in-METABRIC* design (noise/detection floor; honest non-novel
-> baselines incl. cell-type and standard clinical markers; leakage controls; **batch canary on the
-> shared markers** before any cross-cohort claim; size-the-effect before building). Do NOT start
-> building any Fork-2 gate or model until this plan is written and approved.
+> **DESIGN LOCKED (2026-06-15; do not relitigate). See DECISIONS.md.**
 
-Decided inputs already in place: the apparatus, the approved 22-protein shared partition, the
-METABRIC-IMC validation target, and the panel HARD RULE. Open input: the discovery cohort (scoping
-below).
+**BINDING CONSTRAINT: 34 validation events** (METABRIC ER−/HER2− subset, 88 patients). Consequences:
+- (a) **≤3 pre-specified spatial features, one PRIMARY** (no wide scans).
+- (b) The METABRIC TNBC subset (88/34) is **underpowered independent REPLICATION**; Meyer (215)
+  carries effect-existence. Honest framing = **"discovered in Meyer, replicated additively in
+  independent METABRIC"**, NOT "p<0.001 in METABRIC".
+- (c) Every comparison is **1-feature-vs-1-scalar-floor** — floors are **pre-collapsed to single risk
+  scores and FIT on Meyer**, then applied as **FIXED scalars** to METABRIC, so the scarce events are
+  spent almost entirely on the one feature's coefficient.
+
+**ROLE SPLIT.** Meyer = **discovery** (explore freely; fit + lock features and floor coefficients
+here). METABRIC TNBC subset = **validation** (touched once; estimates only the incremental spatial
+effect).
+
+**PRE-SPECIFIED FEATURES.**
+- **PRIMARY = CD8↔tumor proximity** — per-patient distance from CD8 T cells to nearest CK+/panCK+
+  tumor cell, aggregated to one scalar (median, or infiltrated-fraction within a locked radius).
+  Evidence-grounded; beats composition in TNBC literature. Headline, multiplicity-protected.
+- **Secondary-1 = proximity CONSISTENCY** (uniform vs patchy). Exploratory, multiplicity-flagged.
+- **Secondary-2 (receptor-context) = Ki67-tumor spatial structure / CD8 relative to proliferative
+  tumor.** Exploratory, multiplicity-flagged.
+
+**GATES.**
+- **A — floors + reliability.** Floors = clinical SoC composite (grade/age; ER/HER2 constant in TNBC)
+  + composition scalar (e.g. CD8 fraction), **fit on Meyer**. Plus within-patient feature reliability
+  (split-half / across-FOV).
+- **B — batch canary.** Harmonize the 20 markers, ONE cross-cohort cell-typing; confirm a
+  biologically-stable quantity varies **LESS** cross-cohort than the survival signal. **batch ≈ signal
+  ⇒ DEAD.**
+- **C — lock features on Meyer + position-permutation control.** Permute cell positions within-patient
+  → the feature must **collapse to the composition floor**; if it doesn't, it is leaking composition,
+  not spatial.
+- **D — validate on METABRIC, touch once.** Feature predicts BC-death, **additive over the clinical
+  composite, beats the composition floor.** **METRIC = ΔC-index** (feature+floor vs floor) with
+  bootstrap CI; **not bare p<0.05**.
+
+**KILL CRITERIA (fixed).** Dead if: (i) batch ≈ signal (B); (ii) primary doesn't beat the composition
+floor on Meyer OR collapses under position-permutation (C); (iii) doesn't replicate additively over
+both floors on METABRIC (D) → write the negative (*"spatial immune architecture adds no prognostic
+value over composition + SoC in independent TNBC validation"*). Both outcomes publishable.
+
+**STATED ASSUMPTION.** Discovery (Meyer) and validation (METABRIC) endpoints differ —
+**recurrence vs breast-cancer-specific death**. Carried as an explicit assumption of the replication.
+
+Decided inputs in place: apparatus, locked 20-marker Meyer∩METABRIC feature space, the Meyer/METABRIC
+cohorts, the 88/34 validation subset, and the panel HARD RULE.
 
 ---
 

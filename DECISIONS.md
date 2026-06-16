@@ -12,6 +12,32 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-15 - DECISION - Fork-2 Phase-0 gate sequence LOCKED; primary feature = CD8↔tumor proximity
+**Binding constraint:** 34 validation events → ≤3 pre-specified spatial features (1 primary);
+METABRIC TNBC subset (88/34) = underpowered independent REPLICATION (Meyer n=215 carries effect-
+existence); framing = "discovered in Meyer, replicated additively in independent METABRIC", not
+"p<0.001 in METABRIC"; every test = 1-feature-vs-1-scalar-floor, floors pre-collapsed to single risk
+scores FIT on Meyer and applied as FIXED scalars to METABRIC.
+**Role split:** Meyer = discovery (fit+lock features & floor coefficients); METABRIC TNBC = validation
+(touched once; incremental spatial effect only).
+**Features:** PRIMARY = CD8↔tumor proximity (per-patient CD8→nearest CK+/panCK+ tumor distance → one
+scalar: median or infiltrated-fraction within locked radius; multiplicity-protected). Secondary-1 =
+proximity consistency (uniform vs patchy). Secondary-2 = Ki67-tumor structure / CD8 vs proliferative
+tumor. Secondaries exploratory + multiplicity-flagged.
+**Gates:** A = floors (SoC composite grade/age + composition scalar, fit on Meyer) + within-patient
+feature reliability. B = batch canary (harmonize 20 markers, ONE cross-cohort cell-typing; stable
+quantity must vary LESS cross-cohort than the survival signal; batch≈signal⇒DEAD). C = lock features
+on Meyer + position-permutation (permute positions within-patient → feature must collapse to
+composition floor). D = METABRIC, touch once; ΔC-index (feature+floor vs floor) w/ bootstrap CI, not
+bare p<0.05.
+**Kill criteria (fixed):** dead if (i) batch≈signal; (ii) primary fails vs composition floor on Meyer
+or collapses under permutation; (iii) no additive replication over both floors on METABRIC → write
+the negative ("spatial immune architecture adds no prognostic value over composition + SoC in
+independent TNBC validation"). Both outcomes publishable.
+**Stated assumption:** discovery/validation endpoints differ (Meyer recurrence vs METABRIC BC-specific
+death). Recorded in CLAUDE.md (Phase 0 plan, LOCKED). Build the front end (harmonize + cell-typing +
+Gate B canary + Gate A floors), STOP before the Gate-C proximity feature.
+
 ### 2026-06-15 - RESULT - Meyer CKs resolved (feature space final = 20 markers); METABRIC validation subset pinned
 **Task 1 — Meyer cytokeratins resolved** from the study's own deposited SCE `rowData/clean_target`
 (Zenodo 15304181, sce_ALL_sub.rds; real source, not memory): Pr141=CK5, Nd144=CK8/18, Sm147=KRT14,
