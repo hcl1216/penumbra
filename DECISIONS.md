@@ -12,6 +12,21 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - RESULT - PART 3 build BLOCKED locally (Bioconductor unreachable); front-end script ready for Colab
+**Blocker (environment):** the mandated IMC cell-typing ecosystem can't be installed on the local
+Windows box. **bioconductor.org is UNREACHABLE** (curl HTTP 000 / 25s timeout; R available.packages
+hangs) while CRAN/GitHub/Zenodo work → FlowSOM/flowCore/imcRtools/cytomapper (Bioconductor-only)
+uninstallable. The design's other allowed clusterer, **Rphenograph (GitHub), needs a C++ compiler and
+Rtools is ABSENT** (`has_build_tools=FALSE`). Design forbids hand-rolling clustering → did NOT
+substitute.
+**Consequence:** cell-typing → Gate B canary → Gate A floors (all depend on the typing) are NOT run
+locally. Front-end script authored and committed (`scripts/fork2_01_typing_floors.R`,
+harmonize→FlowSOM→canary→floors, stops before Gate C) — **run on Colab** (network-open, installs the
+IMC stack, handles ~1.2M cells), per the Claude-Code/CPU vs Colab/heavy split. Harmonization decided:
+Meyer `exprs` (arcsinh cofactor 1) + METABRIC arcsinh(cofactor 1) of raw intensity, per-cohort 99th-
+pct 0-1 scaling; 17 shared analysis markers (20 minus Histone H3 absent in Meyer, with CD31-vWF and
+c-Casp3/PARP each one combined channel). STOP for review; nothing hand-rolled.
+
 ### 2026-06-16 - RESULT - Fork-2 single-cell data pulled + VERIFIED; both pass (coords + linkage + survival)
 **Meyer (Zenodo 15304181, sce_ALL_sub.rds):** SCE 36 markers × 92,899 cells, 215 patients; coords
 Pos_X/Pos_Y ✓; 19/20 shared markers (Histone H3 absent — structural "other", irrelevant); endpoint
