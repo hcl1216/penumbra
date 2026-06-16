@@ -12,6 +12,15 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - DECISION - Cell-typing refined after R2 review (priority + doublet quarantine + higher k)
+**Change to scripts/fork2_01_typing_floors.R (logic only; design unchanged):** metacluster k 12 -> 25;
+annotation rule rewritten to the design priority **Tumor > B > Myeloid > CD8 > CD4 > Stroma > Other**
+with a **doublet quarantine** (>=2 of the mutually-exclusive anchors CD3/CD20/panCK/CD68 at >=0.5 -> Other,
+fixes the all-high cluster mc12) and CD4 tested LAST among leukocytes (it is promiscuous, was swallowing
+B cells mc11/mc12 and myeloid mc8/mc10). Thresholds raised (defining marker >=0.35). Re-run on Colab
+(notebook does git pull) and re-review R2 + re-confirm R3 before Gate C. Floors (R4) and guard (R1)
+unchanged in logic.
+
 ### 2026-06-16 - RESULT - Front end ran on Colab (R1-R4); Gate A/B OK, but cell-typing too coarse -> Gate C NOT ready
 **R1 (markers):** 20 -> 19 (Histone H3 absent in Meyer) -> 17 channels; HARD GUARD passed (CD8 + cytokeratins present). Clean.
 **R2 (typing) — PROBLEM:** 12 metaclusters collapsed to only 4 types. CD8_T 5.6%/4.2% (Meyer/METABRIC), Tumor_epithelial 24.6%/35.2% (both plausible), CD4_T 24.9%/16.2%, **Other 44.9%/44.4% (~half unclassified)**. The CD4_T bucket is a GARBAGE DRAWER: it absorbs B cells (mc11 CD20=0.88, mc12 CD20=1.0) and myeloid (mc8 CD15=1.0/CD68=0.69, mc10 CD68=0.83/CD11c=0.70/HLA-DR=0.80) because the annotation rule tests CD4>=0.2 before CD20/CD68 and CD4 is promiscuous. **No B_cell / Myeloid / Stroma types emerge.** Tumor(CK+) and CD8(mc9, CD8=0.79) masks look usable, but typing must be fixed (resolution + rule priority) before it underpins the proximity feature.

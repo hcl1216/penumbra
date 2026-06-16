@@ -106,7 +106,7 @@ sub <- c(sample(im, min(N_SUB/2, length(im))), sample(ib, min(N_SUB/2, length(ib
 fsom <- FlowSOM::ReadInput(flowCore::flowFrame(pooled[sub,,drop=FALSE]), transform=FALSE, scale=FALSE)
 fsom <- FlowSOM::BuildSOM(fsom, colsToUse=mk$canon)
 fsom <- FlowSOM::BuildMST(fsom)
-mc   <- as.integer(FlowSOM::metaClustering_consensus(fsom$map$codes, k=12, seed=1))
+mc   <- as.integer(FlowSOM::metaClustering_consensus(fsom$map$codes, k=25, seed=1))
 nodes_all <- FlowSOM:::MapDataToCodes(fsom$map$codes, pooled)[,1]
 meta <- mc[nodes_all]
 
@@ -114,13 +114,19 @@ meta <- mc[nodes_all]
 med <- t(sapply(sort(unique(meta)), function(k) apply(pooled[meta==k,,drop=FALSE],2,median)))
 rownames(med) <- paste0("mc",sort(unique(meta)))
 g <- function(p,m) if (m %in% names(p)) p[m] else 0
+# Priority Tumor > B > Myeloid > CD8 > CD4 > Stroma > Other, with a doublet quarantine:
+# CD3/CD20/panCK/CD68 are mutually-exclusive lineage anchors; >=2 high at once => artifact/doublet
+# -> Other (keeps the CD8 and tumor masks clean for the proximity feature). CD4 is promiscuous
+# (myeloid/DC express it) so it is tested LAST among leukocytes, after B and myeloid are claimed.
 lineage <- function(p){
-  if (max(g(p,"panCK"),g(p,"CK5"),g(p,"CK8_18"))>=0.30) return("Tumor_epithelial")
-  if (g(p,"CD3")>=0.20 && g(p,"CD8")>=g(p,"CD4") && g(p,"CD8")>=0.20) return("CD8_T")
-  if (g(p,"CD3")>=0.20 && g(p,"CD4")>0.20) return("CD4_T")
-  if (g(p,"CD20")>=0.25) return("B_cell")
-  if (max(g(p,"CD68"),g(p,"CD11c"),g(p,"CD15"))>=0.25) return("Myeloid")
-  if (g(p,"SMA")>=0.25 || g(p,"CD31_vWF")>=0.25) return("Stroma_endothelial")
+  excl <- c(g(p,"CD3"), g(p,"CD20"), g(p,"panCK"), g(p,"CD68"))
+  if (sum(excl >= 0.50) >= 2) return("Other")
+  if (max(g(p,"panCK"),g(p,"CK5"),g(p,"CK8_18")) >= 0.35) return("Tumor_epithelial")
+  if (g(p,"CD20") >= 0.35) return("B_cell")
+  if (g(p,"CD68") >= 0.35 || g(p,"CD11c") >= 0.40 || g(p,"CD15") >= 0.45) return("Myeloid")
+  if (g(p,"CD3") >= 0.30 && g(p,"CD8") >= 0.35 && g(p,"CD8") >= g(p,"CD4")) return("CD8_T")
+  if (g(p,"CD3") >= 0.30 && g(p,"CD4") >= 0.30) return("CD4_T")
+  if (g(p,"SMA") >= 0.35 || g(p,"CD31_vWF") >= 0.40) return("Stroma_endothelial")
   "Other"
 }
 mc_type <- setNames(apply(med,1,lineage), rownames(med))
