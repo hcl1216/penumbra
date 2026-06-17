@@ -43,10 +43,19 @@ is_cd8 <- sce$cell_type=="CD8_T"; is_tum <- sce$cell_type=="Tumor_epithelial"
 cat(sprintf("[cells] n=%d  CD8=%d  Tumor=%d  cores=%d  patients=%d\n",
             ncol(sce), sum(is_cd8), sum(is_tum), length(unique(img)), length(unique(sce$PID))))
 
-## ---- imcRtools distance: each cell -> nearest CK+ tumor cell, PER IMAGE ----
-sce <- minDistToCells(sce, x_cells=is_tum, img_id="sample_id", coords=c("Pos_X","Pos_Y"),
-                      return_neg=FALSE, name="distTumor")
-d <- colData(sce)$distTumor                       # Inf where a core has no tumor cell
+## ---- nearest CK+ tumour distance per cell, PER IMAGE ----
+## (imcRtools::minDistToCells is not exported in imcRtools 1.18.1, so use RANN::nn2 -- the ANN
+##  nearest-neighbour library imcRtools itself uses; a library NN query per image, NOT a hand-rolled
+##  distance matrix. Used only for the SECONDARY + reporting; the PRIMARY uses the imcRtools graph below.)
+stopifnot(requireNamespace("RANN", quietly=TRUE))
+coords_m <- as.matrix(as.data.frame(colData(sce))[, c("Pos_X","Pos_Y")])
+d <- rep(Inf, ncol(sce))                          # Inf where a core has no tumour cell
+for (im in unique(img)) {
+  ix <- which(img==im); ti <- ix[is_tum[ix]]
+  if (length(ti)==0) next
+  nn <- RANN::nn2(data=coords_m[ti,,drop=FALSE], query=coords_m[ix,,drop=FALSE], k=1)
+  d[ix] <- nn$nn.dists[,1]
+}
 
 ## ---- imcRtools 20um expansion graph (built ONCE; positions fixed across permutations) ----
 sce <- buildSpatialGraph(sce, img_id="sample_id", type="expansion", threshold=RADIUS,
