@@ -12,6 +12,33 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - DECISION - PRE-REGISTRATION of Secondary-2 (Ki67 tumour architecture); the LAST feature
+**Logged BEFORE results exist (design-before-results).** New, independent axis (NOT salvage of the killed
+CD8<->tumour primary). Meyer ONLY; METABRIC untouched. Frozen, not tuned vs survival:
+- **Ki67+ tumour cell:** tumour cell with Ki67 (exprs) above an **Otsu** threshold computed ONCE on the
+  pooled Ki67 distribution of all Meyer tumour cells (survival-blind, EBImage::otsu). If that distribution
+  is **unimodal** (Hartigan dip test, p>=0.05) -> report + fall back to cohort **median** (still
+  survival-blind) + flag. (Gate D later: recompute Otsu on METABRIC tumour cells by the identical rule.)
+- **Graph:** kNN **k=6 on TUMOUR CELLS ONLY**, per core (img_id=sample_id), imcRtools buildSpatialGraph
+  (fixed-k for density-robustness after last round's density confound).
+- **PRIMARY feature:** Ki67 **assortativity** = for each Ki67+ tumour cell, fraction of its 6 tumour-
+  neighbours that are Ki67+ (imcRtools aggregateNeighbors), as **ENRICHMENT over the patient's baseline
+  Ki67+ rate** (=1 random, >1 clustered, <1 dispersed -> organization, not amount). Per-patient scalar =
+  mean enrichment over the patient's Ki67+ tumour cells.
+- **Minimum:** >=10 Ki67+ tumour cells/patient (cell-count, not survival); below -> excluded + counted +
+  event rate reported (vs 215/48).
+- **Composition floor:** Ki67+ tumour fraction per patient (proliferation index; likely NON-flat ->
+  beating it is a real bar). Report floor HR/CI first.
+**Analysis (Meyer DFS Cox, two-sided):** primary vs Ki67-fraction floor -> HR/SD, CI, C, dC; flag surprising
+direction. **Type-preserving permutation** (within each core permute Ki67+ labels among tumour cells, fixed
+positions/#pos/#tumour, N=499) -> null of Cox |z|+C; real must EXCEED null AND collapse toward floor.
+Density check: Spearman(feature vs tumour count, core area, baseline Ki67+ rate). Concordance via the fixed
+survival::concordance accessor (f1a9c34).
+**KILL CRITERIA (fixed):** dead if primary does NOT beat the Ki67-fraction floor (no additive dC / CI spans
+null) OR fails the type-preserving permutation null. **This is the LAST pre-registered feature** -> on a kill,
+deliverable = the written negative; no third feature. Script: scripts/fork2_03_gateC_ki67arch.R; artifact
+R6 (results/fork2_R6_gateC_ki67.md). HARD STOP after Meyer fit + permutation; not locked for Gate D.
+
 ### 2026-06-16 - VERDICT - Gate C: pre-registered PRIMARY FAILS on Meyer; kill criterion (ii) fires (KILL)
 **Ran on Colab (R5).** Feature set n=136 patients w/ computable primary + DFS (0 excluded for zero CD8).
 - **Primary infiltrated-fraction (<=20um): median 0.023, IQR [0, 0.119]** -> near-floor / zero-inflated.
