@@ -38,6 +38,9 @@ stopifnot(nrow(ct)==ncol(sce))
 stopifnot(all(as.character(ct$PID)==as.character(colData(sce)$PID)))   # same SCE column order
 sce$cell_type <- ct$cell_type
 sce$PID <- as.character(colData(sce)$PID)
+## order cells by core up front, so imcRtools graph/aggregation (which return objects ordered by
+## sample_id) never reorder us out of alignment with the label/PID/distance vectors.
+sce <- sce[, order(as.character(colData(sce)$sample_id))]
 img <- as.character(colData(sce)$sample_id)
 is_cd8 <- sce$cell_type=="CD8_T"; is_tum <- sce$cell_type=="Tumor_epithelial"
 cat(sprintf("[cells] n=%d  CD8=%d  Tumor=%d  cores=%d  patients=%d\n",
@@ -65,14 +68,14 @@ sce <- buildSpatialGraph(sce, img_id="sample_id", type="expansion", threshold=RA
 
 ## per-patient feature builder from a cell_type labeling (uses the FIXED graph for primary)
 infiltrated_fraction <- function(labels){
-  sce$.lab <- labels
-  ag <- aggregateNeighbors(sce, colPairName="exp20", aggregate_by="metadata",
-                           count_by=".lab", name=".agg")
-  prop <- colData(sce)$.agg                         # per-cell neighbour-type proportions
-  tum_col <- if ("Tumor_epithelial" %in% colnames(prop)) prop[,"Tumor_epithelial"] else rep(0,nrow(prop))
+  s <- sce; s$lab_tmp <- labels
+  s <- aggregateNeighbors(s, colPairName="exp20", aggregate_by="metadata",
+                          count_by="lab_tmp", name="aggN")   # uses the FIXED graph; sce pre-sorted -> order kept
+  prop <- colData(s)[["aggN"]]                       # per-cell neighbour-type proportions (from RETURNED object)
+  tum_col <- if (!is.null(prop) && "Tumor_epithelial" %in% colnames(prop)) prop[,"Tumor_epithelial"] else rep(0, ncol(s))
   cd8 <- labels=="CD8_T"
-  has_tum_nb <- cd8 & (!is.na(tum_col)) & (tum_col > 0)
-  tapply(has_tum_nb[cd8], sce$PID[cd8], mean)       # fraction of patient's CD8 with a tumour neighbour <=20um
+  has_tum_nb <- cd8 & !is.na(tum_col) & tum_col > 0
+  tapply(has_tum_nb[cd8], sce$PID[cd8], mean)        # fraction of patient's CD8 with a tumour neighbour <=20um
 }
 
 ## ---- REAL per-patient features ----
