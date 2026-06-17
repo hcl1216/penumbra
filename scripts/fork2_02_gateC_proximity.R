@@ -68,7 +68,7 @@ sce <- buildSpatialGraph(sce, img_id="sample_id", type="expansion", threshold=RA
 
 ## per-patient feature builder from a cell_type labeling (uses the FIXED graph for primary)
 infiltrated_fraction <- function(labels){
-  s <- sce; s$lab_tmp <- labels
+  s <- sce; s$lab_tmp <- factor(labels)
   s <- aggregateNeighbors(s, colPairName="exp20", aggregate_by="metadata",
                           count_by="lab_tmp", name="aggN")   # uses the FIXED graph; sce pre-sorted -> order kept
   prop <- colData(s)[["aggN"]]                       # per-cell neighbour-type proportions (from RETURNED object)
