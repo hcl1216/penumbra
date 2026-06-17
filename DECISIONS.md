@@ -12,6 +12,27 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - VERDICT - Gate C: pre-registered PRIMARY FAILS on Meyer; kill criterion (ii) fires (KILL)
+**Ran on Colab (R5).** Feature set n=136 patients w/ computable primary + DFS (0 excluded for zero CD8).
+- **Primary infiltrated-fraction (<=20um): median 0.023, IQR [0, 0.119]** -> near-floor / zero-inflated.
+  **Secondary median CD8->nearest-tumour distance: median 61.8 um** -> CD8 are tumour-DISTAL (immune-
+  excluded TNBC); 20um contact radius captures almost nothing.
+- **Does NOT beat composition floor:** primary Cox HR 1.176/SD [0.884-1.563] p=0.265 (direction more-
+  proximity~worse, n.s.); composition floor HR 1.003 p=0.99 (flat).
+- **FAILS type-preserving within-core permutation:** real |z|=1.11 vs null |z| mean 2.16 (95th 3.89);
+  **permutation p=0.864** -> real spatial arrangement carries LESS signal than ~86% of reshufflings.
+- Density confound mild (primary vs core ncell rho +0.22 p=0.010). Primary/secondary convergent
+  (rho -0.49) = consistent axis, just not prognostic. Secondary exploratory trend HR 0.67 p=0.099
+  (multiplicity-flagged, no permutation control, counter-direction -> does NOT rescue).
+- C-index printed NA = reporting bug (concordance accessor), fixed in script; does not affect verdict.
+**VERDICT: KILL (criterion ii).** The pre-registered CD8<->CK+ proximity primary (20um) adds no
+prognostic value over composition in Meyer TNBC AND collapses under the spatial null. **Do NOT carry
+to METABRIC; do NOT re-pick the radius (p-hacking).** Both outcomes publishable -> write the negative:
+"spatial CD8-tumour proximity adds no prognostic value over composition in TNBC (Meyer discovery), and
+does not survive a type-preserving spatial null." METABRIC still untouched. Scientific basis: TNBC CD8
+are tumour-distal (median 62um). Next: user's call (write negative / any legitimately pre-registered
+alternative); re-run after C-index fix for a complete negative artifact.
+
 ### 2026-06-16 - DECISION - Gate C built (pre-registered, Meyer only); awaiting Colab run for results
 **Built** scripts/fork2_02_gateC_proximity.R (+ notebook cells 7-8). Pre-registered, NOT tuned vs survival:
 - PRIMARY = infiltrated-fraction: % of a patient's CD8 T cells within **20um** (frozen, juxtacrine range)

@@ -103,7 +103,7 @@ write.csv(P, file.path(RES,"fork2_gateC_features.csv"), row.names=FALSE)
 z <- function(x) (x-mean(x,na.rm=TRUE))/sd(x,na.rm=TRUE)
 fs <- fit_set; fs$primary_z<-z(fs$primary); fs$secondary_z<-z(fs$secondary); fs$cd8frac_z<-z(fs$cd8frac)
 cox1 <- function(f,dat) coxph(as.formula(f), data=dat)
-cidx <- function(m) summary(m)$concordance[1]
+cidx <- function(m) tryCatch(as.numeric(survival::concordance(m)$concordance), error=function(e) NA_real_)
 m_floor <- cox1("Surv(DFS_months,status_DFS) ~ cd8frac_z", fs)
 m_prim  <- cox1("Surv(DFS_months,status_DFS) ~ primary_z", fs)
 m_sec   <- cox1("Surv(DFS_months,status_DFS) ~ secondary_z", fs[is.finite(fs$secondary_z),])
