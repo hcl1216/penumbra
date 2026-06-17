@@ -48,7 +48,7 @@ cat(sprintf("[cells] n=%d tumour=%d cores=%d patients=%d\n",
 
 ## ---- Otsu threshold on pooled tumour Ki67 (survival-blind); median fallback if unimodal ----
 ki67_t <- ki67[is_tum]
-otsu <- EBImage::otsu(ki67_t, range=range(ki67_t), levels=256L)
+otsu <- as.numeric(EBImage::otsu(matrix(ki67_t, ncol=1), range=range(ki67_t), levels=256L))  # otsu needs an array
 dip  <- diptest::dip.test(ki67_t)
 unimodal <- dip$p.value >= 0.05
 thr <- if (unimodal) median(ki67_t) else otsu
