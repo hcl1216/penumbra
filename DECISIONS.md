@@ -12,6 +12,29 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - VERDICT - Gate C Secondary-2 (Ki67 architecture) FAILS -> KILL; LAST feature -> write the negative
+**Ran on Colab (R6).** Ki67+ threshold Otsu=1.178 (dip p=0, clean bimodal -> Otsu, no fallback).
+Analysis set n=85 patients / 28 events (59 excluded by the pre-registered >=10 Ki67+ tumour-cell minimum;
+12 events among excluded; vs 215/48 full).
+- **Floor (Ki67+ fraction): HR 1.02 [0.70-1.48] p=0.92, C=0.503 -> FLAT here** (proliferation index not
+  prognostic in this high-Ki67 subset; the anticipated "non-flat floor" did not materialise).
+- **PRIMARY assortativity enrichment (median 1.10): HR 0.92 [0.61-1.41] p=0.71, C=0.514, dC vs floor
+  +0.011; joint dC +0.006.** Not additive, CI spans null. Direction clustered->BETTER DFS (surprising,
+  n.s.).
+- **Type-preserving permutation: real |z|=0.37 < null mean 0.93 (95th 2.38); perm p=0.752; real C 0.514
+  < permuted mean 0.551** -> real spatial organisation carries LESS signal than reshufflings. Fails.
+- Density confound: none (|rho|<=0.18, all n.s.) -> the fixed-k=6 design controlled density (the one
+  improvement over the primary's mild confound).
+**VERDICT: KILL** (both legs: not additive over floor AND fails the spatial null). **This was the LAST
+pre-registered feature.**
+**CONSEQUENCE -> FORK-2 DISCOVERY IS A NEGATIVE.** Both Gate-C features are dead: CD8<->tumour proximity
+(R5, n=136) and Ki67 tumour architecture (R6, n=85). No pre-registered spatial feature -- immune OR
+tumour-intrinsic -- beats its composition floor or survives a type-preserving spatial null in Meyer TNBC
+discovery. **Nothing earns Gate D; METABRIC stays untouched.** Deliverable = the written negative
+("spatial immune/proliferative architecture adds no prognostic value over composition in TNBC discovery;
+not carried to independent validation"). No third feature (per pre-registration). Caveat: R6 power-limited
+(28 events) by the min-cell filter; R5 was the more decisive immune-axis failure.
+
 ### 2026-06-16 - DECISION - PRE-REGISTRATION of Secondary-2 (Ki67 tumour architecture); the LAST feature
 **Logged BEFORE results exist (design-before-results).** New, independent axis (NOT salvage of the killed
 CD8<->tumour primary). Meyer ONLY; METABRIC untouched. Frozen, not tuned vs survival:
