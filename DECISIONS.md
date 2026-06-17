@@ -12,6 +12,26 @@ then: **Numbers:** (if any) - **Consequence:** (what it changes / what we do nex
 
 ---
 
+### 2026-06-16 - DECISION - PRE-SPECIFY cohort-validity / positive-control check (gate before any negative writeup)
+**Logged before results.** NOT a feature hunt, NOT salvage: tests whether Meyer can detect KNOWN prognostic
+signal at all -- required to interpret the R5/R6 nulls (a negative is only publishable if the cohort could
+have seen a real effect). Meyer ONLY; METABRIC untouched; killed spatial features NOT re-run.
+**FULL cohort (215/48 DFS), no spatial/min-cell/zero-CD8 filters** (those were feature-specific) -> more
+power than R5/R6. Script scripts/fork2_04_cohort_validity.R; fixed survival::concordance accessor.
+**Positive controls (Cox HR + 95% CI + C-index):** TIER 1 clinical = nodal pN (per-level + ordinal trend +
+KM log-rank, n/events per stratum), tumour size pT, grade (flag grade-3-dominant low variance). TIER 2
+IMC-derived = total lymphocyte fraction (CD8+CD4+B)/all cells [stromal-TIL analog, the validated TNBC
+prognosticator] + total immune fraction (lymph+myeloid). **Every control on BOTH endpoints: (A) DFS
+(status_DFS/DFS_months) and (B) OS (status_OS/OS_months)**, each with n events + median follow-up +
+censoring picture.
+**Pre-specified verdict logic:** Tier-1 stratifies (C well >0.5) under DFS or OS -> cohort CAN detect signal
+-> R5/R6 nulls INTERPRETABLE -> publishable negative (under working endpoint). Tier-1 flat under DFS but
+works under OS -> WRONG ENDPOINT (DFS nulls may be artifacts; flag OS re-analysis, decide separately). Tier-1
+flat under BOTH -> cohort underpowered -> result INCONCLUSIVE, not a biological negative. Tier-2: TIL works
+but spatial didn't -> negative is specifically spatial-beyond-composition; TIL also flat -> immune
+compartment quiet (broader caveat). Artifact R7. HARD STOP after reporting; do NOT write the negative / OS
+re-run / touch METABRIC (reviewer call).
+
 ### 2026-06-16 - VERDICT - Gate C Secondary-2 (Ki67 architecture) FAILS -> KILL; LAST feature -> write the negative
 **Ran on Colab (R6).** Ki67+ threshold Otsu=1.178 (dip p=0, clean bimodal -> Otsu, no fallback).
 Analysis set n=85 patients / 28 events (59 excluded by the pre-registered >=10 Ki67+ tumour-cell minimum;
