@@ -47,6 +47,8 @@ cat(sprintf("[cells] n=%d  CD8=%d  Tumor=%d  cores=%d  patients=%d\n",
 ## (imcRtools::minDistToCells is not exported in imcRtools 1.18.1, so use RANN::nn2 -- the ANN
 ##  nearest-neighbour library imcRtools itself uses; a library NN query per image, NOT a hand-rolled
 ##  distance matrix. Used only for the SECONDARY + reporting; the PRIMARY uses the imcRtools graph below.)
+if (!requireNamespace("RANN", quietly=TRUE))
+  install.packages("RANN", repos="https://cloud.r-project.org", quiet=TRUE)
 stopifnot(requireNamespace("RANN", quietly=TRUE))
 coords_m <- as.matrix(as.data.frame(colData(sce))[, c("Pos_X","Pos_Y")])
 d <- rep(Inf, ncol(sce))                          # Inf where a core has no tumour cell
